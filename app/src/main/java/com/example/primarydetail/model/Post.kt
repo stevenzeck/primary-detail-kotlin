@@ -1,10 +1,10 @@
-package com.example.primarydetail.posts.domain.model
+package com.example.primarydetail.model
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.primarydetail.posts.domain.model.Post.Companion.TABLE_NAME
+import com.example.primarydetail.model.Post.Companion.TABLE_NAME
 import com.squareup.moshi.Json
 import kotlinx.parcelize.Parcelize
 

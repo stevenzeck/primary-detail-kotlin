@@ -2,8 +2,8 @@ package com.example.primarydetail.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.primarydetail.posts.services.PostsDao
-import com.example.primarydetail.posts.services.PostsDatabase
+import com.example.primarydetail.services.PostsDao
+import com.example.primarydetail.services.PostsDatabase
 import com.example.primarydetail.util.DATABASE_NAME
 import dagger.Module
 import dagger.Provides

@@ -1,6 +1,6 @@
 package com.example.primarydetail.di
 
-import com.example.primarydetail.posts.services.ApiService
+import com.example.primarydetail.services.ApiService
 import com.example.primarydetail.util.BASE_URL
 import com.squareup.moshi.Moshi
 import dagger.Module

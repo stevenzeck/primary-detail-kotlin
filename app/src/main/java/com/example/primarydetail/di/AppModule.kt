@@ -1,8 +1,8 @@
 package com.example.primarydetail.di
 
-import com.example.primarydetail.posts.services.ApiService
-import com.example.primarydetail.posts.services.PostsDao
-import com.example.primarydetail.posts.ui.PostRepository
+import com.example.primarydetail.services.ApiService
+import com.example.primarydetail.services.PostsDao
+import com.example.primarydetail.ui.PostRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,5 +19,4 @@ object AppModule {
         client: ApiService,
         postsDao: PostsDao
     ) = PostRepository(client, postsDao)
-
 }

@@ -1,6 +1,6 @@
-package com.example.primarydetail.posts.services
+package com.example.primarydetail.services
 
-import com.example.primarydetail.posts.domain.model.Post
+import com.example.primarydetail.model.Post
 import retrofit2.http.GET
 import retrofit2.http.Path
 
