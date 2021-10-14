@@ -3,18 +3,16 @@ package com.example.primarydetail.posts.ui
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.primarydetail.R
 import com.example.primarydetail.databinding.PostDetailItemBinding
 import com.example.primarydetail.posts.domain.model.Post
 import com.example.primarydetail.posts.ui.PostListAdapter.Companion.POST
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
 class PostDetailFragment : Fragment() {
 
-    private val viewModel: PostViewModel by viewModels()
+    private val viewModel: PostViewModel by viewModel()
     private var post: Post? = null
 
     private var _binding: PostDetailItemBinding? = null
@@ -40,7 +38,6 @@ class PostDetailFragment : Fragment() {
             }
         }
 
-        // Set the post variable in post_detail_item to the post from above args
         binding.titleTextView.text = post?.title
         binding.bodyTextView.text = post?.body
 

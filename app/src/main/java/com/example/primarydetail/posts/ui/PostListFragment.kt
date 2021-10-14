@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.selection.ItemKeyProvider
@@ -17,16 +16,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.primarydetail.MainActivity
 import com.example.primarydetail.R
 import com.example.primarydetail.databinding.PostListFragmentBinding
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
 class PostListFragment : Fragment() {
 
     private lateinit var mAdapter: PostListAdapter
     private var mActionMode: ActionMode? = null
     private lateinit var mSelectionTracker: SelectionTracker<Long>
-    private val viewModel: PostViewModel by viewModels()
+    private val viewModel: PostViewModel by viewModel()
 
     private var _binding: PostListFragmentBinding? = null
     private val binding get() = _binding!!

@@ -7,9 +7,8 @@ import com.example.primarydetail.posts.services.PostsDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-class PostRepository @Inject constructor(
+class PostRepository(
     private val client: ApiService,
     private val postsDao: PostsDao
 ) {

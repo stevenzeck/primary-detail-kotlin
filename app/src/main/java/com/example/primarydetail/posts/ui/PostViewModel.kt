@@ -2,12 +2,9 @@ package com.example.primarydetail.posts.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class PostViewModel @Inject constructor(private val repository: PostRepository) : ViewModel() {
+class PostViewModel(private val repository: PostRepository) : ViewModel() {
 
     // Get posts from the database via repository
     val posts = repository.getPostsFromDatabase()
