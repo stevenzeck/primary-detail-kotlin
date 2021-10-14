@@ -1,15 +1,15 @@
-package com.example.primarydetail.posts.ui
+package com.example.primarydetail.ui
 
 import android.util.Log
-import com.example.primarydetail.posts.domain.model.Post
-import com.example.primarydetail.posts.services.ApiService
-import com.example.primarydetail.posts.services.PostsDao
+import com.example.primarydetail.model.Post
+import com.example.primarydetail.services.ApiService
+import com.example.primarydetail.services.PostsDao
+import com.example.primarydetail.util.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-class PostRepository @Inject constructor(
+class PostRepository(
     private val client: ApiService,
     private val postsDao: PostsDao
 ) {
@@ -37,6 +37,19 @@ class PostRepository @Inject constructor(
      * @return A LiveData list of [Post]
      */
     fun getPostsFromDatabase(): Flow<List<Post>> = postsDao.getAllPosts()
+
+    /**
+     * Calls the DAO to get a single post from the database
+     * @return A [Post]
+     */
+    suspend fun postById(postId: Long): Result<Post> {
+        val post = postsDao.postById(postId)
+        return if (post != null) {
+            Result.Success(post)
+        } else {
+            Result.Error(IllegalArgumentException("Unable to find post"))
+        }
+    }
 
     /**
      * Calls the DAO to update posts and mark them as read

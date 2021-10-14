@@ -1,10 +1,10 @@
-package com.example.primarydetail.posts.domain.model
+package com.example.primarydetail.model
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.primarydetail.posts.domain.model.Post.Companion.TABLE_NAME
+import com.example.primarydetail.model.Post.Companion.TABLE_NAME
 import com.squareup.moshi.Json
 import kotlinx.parcelize.Parcelize
 
@@ -17,16 +17,16 @@ import kotlinx.parcelize.Parcelize
 data class Post(
     @PrimaryKey
     @ColumnInfo(name = COLUMN_ID)
-    @field:Json(name = "id")
+    @Json(name = "id")
     val id: Long,
     @ColumnInfo(name = COLUMN_USER_ID)
-    @field:Json(name = "userId")
+    @Json(name = "userId")
     val userId: Int,
     @ColumnInfo(name = COLUMN_TITLE)
-    @field:Json(name = "title")
+    @Json(name = "title")
     val title: String,
     @ColumnInfo(name = COLUMN_BODY)
-    @field:Json(name = "body")
+    @Json(name = "body")
     val body: String,
     @ColumnInfo(name = COLUMN_READ)
     var read: Boolean = false
