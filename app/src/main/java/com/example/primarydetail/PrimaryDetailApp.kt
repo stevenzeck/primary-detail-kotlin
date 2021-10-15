@@ -1,10 +1,11 @@
 package com.example.primarydetail
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.fragment.app.FragmentManager
 import com.example.primarydetail.ui.theme.PrimaryDetailTheme
 import com.google.accompanist.insets.ProvideWindowInsets
@@ -24,6 +25,16 @@ fun PrimaryDetailApp(fm: FragmentManager) {
                     TopAppBar(
                         title = {
                             Text(text = "")
+                        },
+                        navigationIcon = {
+                            if (appState.shouldShowBackButton) {
+                                IconButton(onClick = appState::upPress) {
+                                    Icon(
+                                        imageVector = Icons.Filled.ArrowBack,
+                                        contentDescription = stringResource(id = R.string.back),
+                                    )
+                                }
+                            }
                         },
                         actions = {
 

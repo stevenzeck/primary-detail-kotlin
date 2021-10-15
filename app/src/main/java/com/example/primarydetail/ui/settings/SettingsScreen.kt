@@ -10,7 +10,7 @@ import com.example.primarydetail.R
 import com.example.primarydetail.settings.SettingsFragment
 
 @Composable
-fun SettingsScreen(onBack: () -> Unit, fm: FragmentManager) {
+fun SettingsScreen(fm: FragmentManager) {
     AndroidView(
         modifier = Modifier.fillMaxSize(),
         factory = {

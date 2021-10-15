@@ -5,9 +5,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.primarydetail.MainDestinations.POST_DETAIL_ID_KEY
 import com.example.primarydetail.ui.postdetail.PostDetailScreen
 import com.example.primarydetail.ui.postlist.PostListScreen
@@ -40,11 +42,16 @@ fun PrimaryDetailNavGraph(
             )
         }
         composable(MainDestinations.SETTINGS_ROUTE) {
-            SettingsScreen(onBack = actions.upPress, fm)
+            SettingsScreen(fm)
         }
-        composable("${MainDestinations.POST_DETAIL_ROUTE}/{$POST_DETAIL_ID_KEY}") { backStackEntry ->
+        composable("${MainDestinations.POST_DETAIL_ROUTE}/{$POST_DETAIL_ID_KEY}",
+            arguments = listOf(
+                navArgument(POST_DETAIL_ID_KEY) {
+                    type = NavType.LongType
+                }
+            )) { backStackEntry ->
             PostDetailScreen(
-                postId = backStackEntry.arguments?.getString(POST_DETAIL_ID_KEY)?.toLong(),
+                postId = backStackEntry.arguments?.getLong(POST_DETAIL_ID_KEY),
                 onBack = actions.upPress,
             )
         }
