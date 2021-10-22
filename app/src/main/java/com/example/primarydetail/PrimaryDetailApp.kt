@@ -24,10 +24,11 @@ fun PrimaryDetailApp(fm: FragmentManager) {
                 topBar = {
                     TopAppBar(
                         title = {
-                            Text(text = "")
+                            Text(text = appState.topBarText)
                         },
-                        navigationIcon = {
-                            if (appState.shouldShowBackButton) {
+                        navigationIcon =
+                        if (appState.shouldShowBackButton) {
+                            {
                                 IconButton(onClick = appState::upPress) {
                                     Icon(
                                         imageVector = Icons.Filled.ArrowBack,
@@ -35,7 +36,7 @@ fun PrimaryDetailApp(fm: FragmentManager) {
                                     )
                                 }
                             }
-                        },
+                        } else null,
                         actions = {
 
                         }

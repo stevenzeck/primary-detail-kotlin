@@ -22,7 +22,7 @@ fun PostListScreen(
     viewModel: PostListViewModel = hiltViewModel()
 ) {
     val listState = rememberLazyListState()
-    val posts: PostListViewModel.PostListScreenState = viewModel.posts.collectAsState().value
+    val posts = viewModel.posts.collectAsState().value
     val selectionMode = viewModel.selectionMode.collectAsState().value
     val selectedPosts = viewModel.selectedPosts.collectAsState().value
     when (posts) {

@@ -8,10 +8,13 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.primarydetail.MainDestinations.POSTS_LIST_ROUTE
+import com.example.primarydetail.MainDestinations.POST_DETAIL_ROUTE
+import com.example.primarydetail.MainDestinations.SETTINGS_ROUTE
 
 class PrimaryDetailAppState(
     val scaffoldState: ScaffoldState,
@@ -26,9 +29,15 @@ class PrimaryDetailAppState(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination?.route != POSTS_LIST_ROUTE
 
-    val topBarText: String?
-        @Composable get() = navController
-            .currentBackStackEntryAsState().value?.destination?.displayName
+    // FIXME there has to be a better way for this. And need a way to change the title when in selection mode
+    val topBarText: String
+        @Composable get() = when (navController
+            .currentBackStackEntryAsState().value?.destination?.route) {
+            POSTS_LIST_ROUTE -> stringResource(id = R.string.title_post_list)
+            "$POST_DETAIL_ROUTE/{postId}" -> stringResource(id = R.string.title_post_detail)
+            SETTINGS_ROUTE -> stringResource(id = R.string.title_settings)
+            else -> stringResource(id = R.string.app_name)
+        }
 }
 
 @Composable
