@@ -6,8 +6,8 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -69,7 +69,7 @@ fun PostList(
                 toggleSelected
             )
             Divider(
-                color = MaterialTheme.colors.onSurface.copy(alpha = 0.1f)
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)
             )
         }
     }

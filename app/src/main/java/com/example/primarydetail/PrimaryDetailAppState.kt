@@ -1,8 +1,9 @@
 package com.example.primarydetail
 
 import android.content.res.Resources
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ScaffoldState
+import androidx.compose.material3.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.remember
@@ -16,6 +17,7 @@ import com.example.primarydetail.MainDestinations.POSTS_LIST_ROUTE
 import com.example.primarydetail.MainDestinations.POST_DETAIL_ROUTE
 import com.example.primarydetail.MainDestinations.SETTINGS_ROUTE
 
+@ExperimentalMaterial3Api
 class PrimaryDetailAppState(
     val scaffoldState: ScaffoldState,
     val navController: NavHostController,
@@ -40,6 +42,7 @@ class PrimaryDetailAppState(
         }
 }
 
+@ExperimentalMaterial3Api
 @Composable
 fun rememberPrimaryDetailState(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
