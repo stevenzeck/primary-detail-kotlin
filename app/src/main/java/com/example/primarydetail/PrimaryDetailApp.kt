@@ -46,6 +46,7 @@ fun PrimaryDetailApp(fm: FragmentManager) {
                 PrimaryDetailNavGraph(
                     navController = appState.navController,
                     fm = fm,
+                    appState = appState,
                 )
             }
         }
