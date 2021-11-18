@@ -7,6 +7,7 @@ import androidx.compose.material3.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -24,9 +25,14 @@ class PrimaryDetailAppState(
         navController.navigateUp()
     }
 
-    val shouldShowBackButton: Boolean
+    val currentRoute: State<NavBackStackEntry?>
         @Composable get() = navController
-            .currentBackStackEntryAsState().value?.destination?.route != POSTS_LIST_ROUTE
+            .currentBackStackEntryAsState()
+
+    val shouldShowBackButton: Boolean
+        @Composable get() = !arrayOf(
+            POSTS_LIST_ROUTE,
+        ).contains(currentRoute.value?.destination?.route)
 }
 
 @ExperimentalMaterial3Api

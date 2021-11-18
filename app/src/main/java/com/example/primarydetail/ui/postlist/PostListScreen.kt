@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.primarydetail.model.Post
 
@@ -22,21 +23,22 @@ fun PostListScreen(
     viewModel: PostListViewModel = hiltViewModel()
 ) {
     val listState = rememberLazyListState()
-    val posts = viewModel.posts.collectAsState().value
+    val uiState by viewModel.uiState.collectAsState()
     val selectionMode = viewModel.selectionMode.collectAsState().value
     val selectedPosts = viewModel.selectedPosts.collectAsState().value
-    when (posts) {
-        is PostListViewModel.PostListScreenState.Success -> PostList(
-            listState,
-            posts.data,
-            {
+    when (uiState) {
+        is PostListUiState.HasPosts -> PostList(
+            listState = listState,
+            posts = (uiState as PostListUiState.HasPosts).posts,
+            read = (uiState as PostListUiState.HasPosts).read,
+            navigateToPostDetail = {
                 viewModel.markRead(it)
                 navigateToPostDetail(it)
             },
-            selectionMode,
-            selectedPosts,
-            { id -> viewModel.startSelection(id) },
-            { id -> viewModel.toggleSelected(id) }
+            selectionMode = selectionMode,
+            selectedPosts = selectedPosts,
+            startSelection = { id -> viewModel.startSelection(id) },
+            toggleSelected = { id -> viewModel.toggleSelected(id) }
         )
         else -> Loading()
     }
@@ -47,6 +49,7 @@ fun PostListScreen(
 fun PostList(
     listState: LazyListState,
     posts: List<Post>,
+    read: List<Long>,
     navigateToPostDetail: (Long) -> Unit,
     selectionMode: Boolean,
     selectedPosts: List<Long>,
@@ -61,12 +64,13 @@ fun PostList(
             }
         ) { post ->
             PostListItem(
-                post,
-                navigateToPostDetail,
-                selectionMode,
-                selectionMode && post.id in selectedPosts,
-                startSelection,
-                toggleSelected
+                post = post,
+                isRead = read.contains(post.id),
+                onItemClicked = navigateToPostDetail,
+                isSelectionMode = selectionMode,
+                isSelected = selectionMode && post.id in selectedPosts,
+                startSelection = startSelection,
+                toggleSelected = toggleSelected
             )
             Divider(
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)

@@ -4,10 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.primarydetail.model.Post
 import com.example.primarydetail.ui.PostRepository
+import com.example.primarydetail.util.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,8 +14,14 @@ import javax.inject.Inject
 class PostListViewModel @Inject constructor(private val repository: PostRepository) : ViewModel() {
 
     // Posts via [serverPosts()]
-    private val _posts = MutableStateFlow<PostListScreenState>(PostListScreenState.Loading)
-    val posts get() = _posts.asStateFlow()
+    private val viewModelState = MutableStateFlow(PostListViewModelState(isLoading = true))
+    val uiState = viewModelState
+        .map { it.toUiState() }
+        .stateIn(
+            viewModelScope,
+            SharingStarted.Eagerly,
+            viewModelState.value.toUiState()
+        )
 
     // Posts that are selected by long press
     private val _selectedPosts = MutableStateFlow(emptyList<Long>())
@@ -27,11 +32,28 @@ class PostListViewModel @Inject constructor(private val repository: PostReposito
     val selectionMode get() = _selectionMode
 
     init {
-        _posts.value = PostListScreenState.Loading
+        refreshPosts()
+
+        viewModelScope.launch {
+            repository.getReadPosts().collect { read ->
+                viewModelState.update { it.copy(read = read) }
+            }
+        }
+    }
+
+    fun refreshPosts() {
+        viewModelState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             repository.getServerPosts()
-            repository.getPostsFromDatabase().collect { result ->
-                _posts.value = PostListScreenState.Success(result)
+            val posts = repository.getPostsFromDatabase()
+            viewModelState.update {
+                when (posts) {
+                    is Result.Success -> it.copy(posts = posts.data, isLoading = false)
+                    else -> {
+                        val errorMessages = it.errorMessages
+                        it.copy(errorMessages = errorMessages, isLoading = false)
+                    }
+                }
             }
         }
     }
@@ -76,13 +98,45 @@ class PostListViewModel @Inject constructor(private val repository: PostReposito
         repository.deletePosts(selectedPosts.value)
         endSelection()
     }
+}
 
-    sealed class PostListScreenState {
+sealed interface PostListUiState {
 
-        object Loading : PostListScreenState()
+    val isLoading: Boolean
+    val errorMessages: List<String>
 
-        data class Error(val exception: Exception) : PostListScreenState()
+    data class NoPosts(
+        override val isLoading: Boolean,
+        override val errorMessages: List<String>,
+    ) : PostListUiState
 
-        data class Success(val data: List<Post>) : PostListScreenState()
-    }
+    data class HasPosts(
+        val posts: List<Post>,
+        val read: List<Long>,
+        override val isLoading: Boolean,
+        override val errorMessages: List<String>,
+    ) : PostListUiState
+}
+
+private data class PostListViewModelState(
+    val posts: List<Post> = emptyList(),
+    val read: List<Long> = emptyList(),
+    val isLoading: Boolean = false,
+    val errorMessages: List<String> = emptyList(),
+) {
+
+    fun toUiState(): PostListUiState =
+        if (posts.isEmpty()) {
+            PostListUiState.NoPosts(
+                isLoading = isLoading,
+                errorMessages = errorMessages,
+            )
+        } else {
+            PostListUiState.HasPosts(
+                posts = posts,
+                read = read,
+                isLoading = isLoading,
+                errorMessages = errorMessages,
+            )
+        }
 }

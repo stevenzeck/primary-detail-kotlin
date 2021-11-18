@@ -56,10 +56,7 @@ fun PrimaryDetailNavGraph(
                 }
             )) { backStackEntry ->
             appState.topBarText = stringResource(id = R.string.title_post_detail)
-            PostDetailScreen(
-                postId = backStackEntry.arguments?.getLong(POST_DETAIL_ID_KEY),
-                onBack = actions.upPress,
-            )
+            PostDetailScreen()
         }
     }
 }

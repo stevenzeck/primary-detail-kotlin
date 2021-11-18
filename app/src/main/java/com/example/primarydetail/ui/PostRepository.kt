@@ -6,7 +6,6 @@ import com.example.primarydetail.services.ApiService
 import com.example.primarydetail.services.PostsDao
 import com.example.primarydetail.util.Result
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -27,6 +26,8 @@ class PostRepository @Inject constructor(
         }
     }
 
+    suspend fun getReadPosts() = postsDao.getReadPosts()
+
     /**
      * Calls the DAO to insert posts into the database
      * @param posts A list of posts to insert
@@ -37,7 +38,14 @@ class PostRepository @Inject constructor(
      * Calls the DAO to get posts from the database
      * @return A LiveData list of [Post]
      */
-    fun getPostsFromDatabase(): Flow<List<Post>> = postsDao.getAllPosts()
+    suspend fun getPostsFromDatabase(): Result<List<Post>> {
+        val posts = postsDao.getAllPosts()
+        return if (posts.isNotEmpty()) {
+            Result.Success(posts)
+        } else {
+            Result.Error(IllegalArgumentException("Unable to find post"))
+        }
+    }
 
     /**
      * Calls the DAO to get a single post from the database
