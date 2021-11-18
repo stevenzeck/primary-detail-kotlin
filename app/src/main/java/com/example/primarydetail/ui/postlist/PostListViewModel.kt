@@ -25,11 +25,7 @@ class PostListViewModel @Inject constructor(private val repository: PostReposito
 
     // Posts that are selected by long press
     private val _selectedPosts = MutableStateFlow(emptyList<Long>())
-    val selectedPosts get() = _selectedPosts.asStateFlow()
-
-    // Whether or not items are selected (SelectionTracker)
-    private val _selectionMode = MutableStateFlow(false)
-    val selectionMode get() = _selectionMode
+    private val selectedPosts get() = _selectedPosts.asStateFlow()
 
     init {
         refreshPosts()
@@ -65,6 +61,9 @@ class PostListViewModel @Inject constructor(private val repository: PostReposito
         if (selectedPosts.value.isEmpty()) {
             endSelection()
         }
+        viewModelState.update {
+            it.copy(selectedPosts = selectedPosts.value)
+        }
     }
 
     private fun <T> List<T>.toggle(item: T) =
@@ -75,12 +74,16 @@ class PostListViewModel @Inject constructor(private val repository: PostReposito
     // Start selection tracking
     fun startSelection(id: Long) {
         _selectedPosts.value = listOf(id)
-        _selectionMode.value = true
+        viewModelState.update {
+            it.copy(selectionMode = true, selectedPosts = selectedPosts.value)
+        }
     }
 
     // End selection tracking
-    fun endSelection() {
-        _selectionMode.value = false
+    private fun endSelection() {
+        viewModelState.update {
+            it.copy(selectionMode = false, selectedPosts = emptyList())
+        }
     }
 
     // Mark posts as read via repository
@@ -113,6 +116,8 @@ sealed interface PostListUiState {
     data class HasPosts(
         val posts: List<Post>,
         val read: List<Long>,
+        val selectionMode: Boolean,
+        val selectedPosts: List<Long>,
         override val isLoading: Boolean,
         override val errorMessages: List<String>,
     ) : PostListUiState
@@ -122,6 +127,8 @@ private data class PostListViewModelState(
     val posts: List<Post> = emptyList(),
     val read: List<Long> = emptyList(),
     val isLoading: Boolean = false,
+    val selectionMode: Boolean = false,
+    val selectedPosts: List<Long> = emptyList(),
     val errorMessages: List<String> = emptyList(),
 ) {
 
@@ -136,6 +143,8 @@ private data class PostListViewModelState(
                 posts = posts,
                 read = read,
                 isLoading = isLoading,
+                selectionMode = selectionMode,
+                selectedPosts = selectedPosts,
                 errorMessages = errorMessages,
             )
         }

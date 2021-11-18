@@ -17,7 +17,7 @@ import com.example.primarydetail.MainDestinations.POSTS_LIST_ROUTE
 class PrimaryDetailAppState(
     val scaffoldState: ScaffoldState,
     val navController: NavHostController,
-    private val resources: Resources,
+    val resources: Resources,
 ) {
     var topBarText by mutableStateOf("")
 
@@ -33,6 +33,11 @@ class PrimaryDetailAppState(
         @Composable get() = !arrayOf(
             POSTS_LIST_ROUTE,
         ).contains(currentRoute.value?.destination?.route)
+
+    val inActionMode: Boolean
+        @Composable get() = selectedItems > 0
+
+    var selectedItems: Int by mutableStateOf(0)
 }
 
 @ExperimentalMaterial3Api

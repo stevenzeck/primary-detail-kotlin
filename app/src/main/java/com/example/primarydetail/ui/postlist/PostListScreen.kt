@@ -20,26 +20,28 @@ import com.example.primarydetail.model.Post
 fun PostListScreen(
     navigateToPostDetail: (Long) -> Unit,
     navigateToSettings: () -> Unit,
+    selectedPosts: (Int) -> Unit,
     viewModel: PostListViewModel = hiltViewModel()
 ) {
     val listState = rememberLazyListState()
     val uiState by viewModel.uiState.collectAsState()
-    val selectionMode = viewModel.selectionMode.collectAsState().value
-    val selectedPosts = viewModel.selectedPosts.collectAsState().value
     when (uiState) {
-        is PostListUiState.HasPosts -> PostList(
-            listState = listState,
-            posts = (uiState as PostListUiState.HasPosts).posts,
-            read = (uiState as PostListUiState.HasPosts).read,
-            navigateToPostDetail = {
-                viewModel.markRead(it)
-                navigateToPostDetail(it)
-            },
-            selectionMode = selectionMode,
-            selectedPosts = selectedPosts,
-            startSelection = { id -> viewModel.startSelection(id) },
-            toggleSelected = { id -> viewModel.toggleSelected(id) }
-        )
+        is PostListUiState.HasPosts -> {
+            selectedPosts((uiState as PostListUiState.HasPosts).selectedPosts.size)
+            PostList(
+                listState = listState,
+                posts = (uiState as PostListUiState.HasPosts).posts,
+                read = (uiState as PostListUiState.HasPosts).read,
+                navigateToPostDetail = {
+                    viewModel.markRead(it)
+                    navigateToPostDetail(it)
+                },
+                selectionMode = (uiState as PostListUiState.HasPosts).selectionMode,
+                selectedPosts = (uiState as PostListUiState.HasPosts).selectedPosts,
+                startSelection = { id -> viewModel.startSelection(id) },
+                toggleSelected = { id -> viewModel.toggleSelected(id) },
+            )
+        }
         else -> Loading()
     }
 }

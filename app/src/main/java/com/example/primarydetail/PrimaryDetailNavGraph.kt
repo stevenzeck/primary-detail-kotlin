@@ -44,6 +44,9 @@ fun PrimaryDetailNavGraph(
             PostListScreen(
                 navigateToPostDetail = actions.navigateToPostDetail,
                 navigateToSettings = actions.navigateToSettings,
+                selectedPosts = {
+                    appState.selectedItems = it
+                }
             )
         }
         composable(MainDestinations.SETTINGS_ROUTE) {

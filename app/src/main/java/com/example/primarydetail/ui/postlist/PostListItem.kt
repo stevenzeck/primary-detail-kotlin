@@ -11,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -46,7 +47,7 @@ fun PostListItem(
                 }
             )
             .fillMaxWidth()
-            .background(color = if (isSelected) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.background)
+            .background(color = if (isSelected) Color.LightGray else MaterialTheme.colorScheme.background)
     ) {
         Box(
             modifier = Modifier
