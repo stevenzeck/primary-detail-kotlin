@@ -3,14 +3,12 @@ package com.example.primarydetail
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.primarydetail.MainDestinations.POST_DETAIL_ID_KEY
 import com.example.primarydetail.ui.postdetail.PostDetailScreen
@@ -28,28 +26,28 @@ object MainDestinations {
 @ExperimentalFoundationApi
 @Composable
 fun PrimaryDetailNavGraph(
-    navController: NavHostController = rememberNavController(),
     fm: FragmentManager,
+    actions: MainActions,
     appState: PrimaryDetailAppState = rememberPrimaryDetailState(),
     startDestination: String = MainDestinations.POSTS_LIST_ROUTE
 ) {
-    val actions = remember(navController) { MainActions(navController) }
-
     NavHost(
-        navController = navController,
+        navController = appState.navController,
         startDestination = startDestination
     ) {
         composable(MainDestinations.POSTS_LIST_ROUTE) {
             appState.topBarText = stringResource(id = R.string.title_post_list)
             PostListScreen(
                 navigateToPostDetail = actions.navigateToPostDetail,
-                navigateToSettings = actions.navigateToSettings,
+                actionToTake = appState.actionToTake,
+                finishActions = { appState.actionToTake = 0 },
                 selectedPosts = {
                     appState.selectedItems = it
                 }
             )
         }
         composable(MainDestinations.SETTINGS_ROUTE) {
+            appState.topBarText = stringResource(id = R.string.title_settings)
             SettingsScreen(fm)
         }
         composable("${MainDestinations.POST_DETAIL_ROUTE}/{$POST_DETAIL_ID_KEY}",

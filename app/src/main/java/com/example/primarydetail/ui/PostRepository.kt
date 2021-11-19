@@ -26,7 +26,7 @@ class PostRepository @Inject constructor(
         }
     }
 
-    suspend fun getReadPosts() = postsDao.getReadPosts()
+    fun getReadPosts() = postsDao.getReadPosts()
 
     /**
      * Calls the DAO to insert posts into the database

@@ -2,12 +2,10 @@ package com.example.primarydetail
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.MarkEmailRead
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import androidx.fragment.app.FragmentManager
 import com.example.primarydetail.ui.theme.PrimaryDetailTheme
@@ -22,6 +20,7 @@ fun PrimaryDetailApp(fm: FragmentManager) {
         PrimaryDetailTheme {
 
             val appState = rememberPrimaryDetailState()
+            val actions = remember(appState.navController) { MainActions(appState.navController) }
 
             Scaffold(
                 scaffoldState = appState.scaffoldState,
@@ -49,7 +48,7 @@ fun PrimaryDetailApp(fm: FragmentManager) {
                                     )
                                 }
                             } else if (appState.inActionMode) {
-                                IconButton(onClick = appState::upPress) {
+                                IconButton(onClick = { appState.actionToTake = 1 }) {
                                     Icon(
                                         imageVector = Icons.Filled.Close,
                                         contentDescription = stringResource(id = R.string.clear_selected),
@@ -59,16 +58,23 @@ fun PrimaryDetailApp(fm: FragmentManager) {
                         },
                         actions = {
                             if (appState.inActionMode) {
-                                IconButton(onClick = appState::upPress) {
+                                IconButton(onClick = { appState.actionToTake = 2 }) {
                                     Icon(
                                         imageVector = Icons.Filled.Delete,
                                         contentDescription = stringResource(id = R.string.delete),
                                     )
                                 }
-                                IconButton(onClick = appState::upPress) {
+                                IconButton(onClick = { appState.actionToTake = 3 }) {
                                     Icon(
                                         imageVector = Icons.Filled.MarkEmailRead,
                                         contentDescription = stringResource(id = R.string.markRead),
+                                    )
+                                }
+                            } else {
+                                IconButton(onClick = actions.navigateToSettings) {
+                                    Icon(
+                                        imageVector = Icons.Filled.Settings,
+                                        contentDescription = stringResource(id = R.string.title_settings),
                                     )
                                 }
                             }
@@ -77,8 +83,8 @@ fun PrimaryDetailApp(fm: FragmentManager) {
                 },
             ) {
                 PrimaryDetailNavGraph(
-                    navController = appState.navController,
                     fm = fm,
+                    actions = actions,
                     appState = appState,
                 )
             }

@@ -19,12 +19,20 @@ import com.example.primarydetail.model.Post
 @Composable
 fun PostListScreen(
     navigateToPostDetail: (Long) -> Unit,
-    navigateToSettings: () -> Unit,
+    actionToTake: Int,
+    finishActions: () -> Unit,
     selectedPosts: (Int) -> Unit,
     viewModel: PostListViewModel = hiltViewModel()
 ) {
     val listState = rememberLazyListState()
     val uiState by viewModel.uiState.collectAsState()
+    when (actionToTake) {
+        0 -> {}
+        1 -> { viewModel.endSelection() }
+        2 -> { viewModel.deletePosts() }
+        3 -> { viewModel.markRead() }
+    }
+    finishActions()
     when (uiState) {
         is PostListUiState.HasPosts -> {
             selectedPosts((uiState as PostListUiState.HasPosts).selectedPosts.size)

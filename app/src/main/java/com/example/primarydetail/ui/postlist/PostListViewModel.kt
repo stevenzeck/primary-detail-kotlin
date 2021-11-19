@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PostListViewModel @Inject constructor(private val repository: PostRepository) : ViewModel() {
 
-    // Posts via [serverPosts()]
+    // Holds the state of the UI
     private val viewModelState = MutableStateFlow(PostListViewModelState(isLoading = true))
     val uiState = viewModelState
         .map { it.toUiState() }
@@ -27,6 +27,7 @@ class PostListViewModel @Inject constructor(private val repository: PostReposito
     private val _selectedPosts = MutableStateFlow(emptyList<Long>())
     private val selectedPosts get() = _selectedPosts.asStateFlow()
 
+    //
     init {
         refreshPosts()
 
@@ -80,7 +81,7 @@ class PostListViewModel @Inject constructor(private val repository: PostReposito
     }
 
     // End selection tracking
-    private fun endSelection() {
+    fun endSelection() {
         viewModelState.update {
             it.copy(selectionMode = false, selectedPosts = emptyList())
         }
@@ -89,6 +90,7 @@ class PostListViewModel @Inject constructor(private val repository: PostReposito
     // Mark posts as read via repository
     fun markRead() = viewModelScope.launch {
         repository.markRead(selectedPosts.value)
+        refreshPosts()
         endSelection()
     }
 
@@ -99,6 +101,7 @@ class PostListViewModel @Inject constructor(private val repository: PostReposito
 
     fun deletePosts() = viewModelScope.launch {
         repository.deletePosts(selectedPosts.value)
+        refreshPosts()
         endSelection()
     }
 }
