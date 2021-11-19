@@ -2,14 +2,10 @@ package com.example.primarydetail
 
 import android.app.Application
 import androidx.preference.PreferenceManager
-import com.example.primarydetail.di.appModule
-import com.example.primarydetail.di.databaseModule
-import com.example.primarydetail.di.networkModule
 import com.example.primarydetail.settings.ThemeHelper
-import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
-import org.koin.core.context.startKoin
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class MyApplication : Application() {
 
     override fun onCreate() {
@@ -17,11 +13,5 @@ class MyApplication : Application() {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         val themePref = sharedPreferences.getString("themePref", ThemeHelper.DEFAULT_MODE)
         themePref?.let { ThemeHelper.applyTheme(it) }
-
-        startKoin {
-            androidContext(this@MyApplication)
-            androidLogger()
-            modules(appModule, networkModule, databaseModule)
-        }
     }
 }
