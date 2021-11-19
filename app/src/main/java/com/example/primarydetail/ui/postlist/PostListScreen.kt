@@ -26,13 +26,16 @@ fun PostListScreen(
 ) {
     val listState = rememberLazyListState()
     val uiState by viewModel.uiState.collectAsState()
+
+    // FIXME this is horrible
     when (actionToTake) {
-        0 -> {}
         1 -> { viewModel.endSelection() }
         2 -> { viewModel.deletePosts() }
         3 -> { viewModel.markRead() }
+        else -> {}
     }
     finishActions()
+
     when (uiState) {
         is PostListUiState.HasPosts -> {
             selectedPosts((uiState as PostListUiState.HasPosts).selectedPosts.size)

@@ -39,6 +39,7 @@ class PrimaryDetailAppState(
 
     var selectedItems: Int by mutableStateOf(0)
 
+    // FIXME this is horrible
     // 0 = nothing
     // 1 = end action mode
     // 2 = delete selected

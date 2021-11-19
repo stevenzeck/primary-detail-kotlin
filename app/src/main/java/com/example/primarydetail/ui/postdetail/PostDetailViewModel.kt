@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PostDetailViewModel @Inject constructor(
     private val repository: PostRepository,
-    private val state: SavedStateHandle
+    state: SavedStateHandle
 ) :
     ViewModel() {
 
@@ -29,14 +29,16 @@ class PostDetailViewModel @Inject constructor(
             viewModelState.value.toUiState()
         )
 
+    private var postId: Long? = null
+
     init {
+        postId = state.get<Long>("postId")
         retrievePost()
     }
 
     private fun retrievePost() {
         viewModelState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            val postId = state.get<Long>("postId")
             val post = postId?.let { repository.postById(it) }
             viewModelState.update {
                 when (post) {
@@ -60,10 +62,9 @@ class PostDetailViewModel @Inject constructor(
 
     /**
      * Delete a post via repository
-     * @param postId The ID of the post to delete
      */
-    fun deletePost(postId: Long) = viewModelScope.launch {
-        repository.deletePost(postId)
+    fun deletePost() = viewModelScope.launch {
+        postId?.let { repository.deletePost(it) }
     }
 }
 
