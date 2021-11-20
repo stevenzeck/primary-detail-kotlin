@@ -16,15 +16,7 @@ interface PostsDao {
      * @return The list of posts from the database
      */
     @Query("SELECT * FROM ${Post.TABLE_NAME} ORDER BY ${Post.COLUMN_ID} desc")
-    suspend fun getAllPosts(): List<Post>
-
-    /**
-     * Retrieve all posts from the database, ordering by id
-     *
-     * @return The list of posts from the database
-     */
-    @Query("SELECT ${Post.COLUMN_ID} FROM ${Post.TABLE_NAME} WHERE ${Post.COLUMN_READ} = 1")
-    fun getReadPosts(): Flow<List<Long>>
+    fun getAllPosts(): Flow<List<Post>>
 
     /**
      * Retrieve the number of posts in the database

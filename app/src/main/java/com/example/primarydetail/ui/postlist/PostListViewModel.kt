@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.primarydetail.model.Post
 import com.example.primarydetail.ui.PostRepository
-import com.example.primarydetail.util.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -27,28 +26,20 @@ class PostListViewModel @Inject constructor(private val repository: PostReposito
     private val _selectedPosts = MutableStateFlow(emptyList<Long>())
     private val selectedPosts get() = _selectedPosts.asStateFlow()
 
-    //
+    // Retrieve posts when the ViewModel is first created so list screen can display them
     init {
         refreshPosts()
-
-        viewModelScope.launch {
-            repository.getReadPosts().collect { read ->
-                viewModelState.update { it.copy(read = read) }
-            }
-        }
     }
 
     fun refreshPosts() {
         viewModelState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            repository.getServerPosts()
-            val posts = repository.getPostsFromDatabase()
-            viewModelState.update {
-                when (posts) {
-                    is Result.Success -> it.copy(posts = posts.data, isLoading = false)
-                    else -> {
-                        val errorMessages = it.errorMessages
-                        it.copy(errorMessages = errorMessages, isLoading = false)
+            repository.getPosts().collect { postList ->
+                if (postList.isEmpty()) {
+                    repository.getServerPosts()
+                } else {
+                    viewModelState.update {
+                        it.copy(posts = postList, isLoading = false)
                     }
                 }
             }
@@ -85,12 +76,12 @@ class PostListViewModel @Inject constructor(private val repository: PostReposito
         viewModelState.update {
             it.copy(selectionMode = false, selectedPosts = emptyList())
         }
+        refreshPosts()
     }
 
     // Mark posts as read via repository
     fun markRead() = viewModelScope.launch {
         repository.markRead(selectedPosts.value)
-        refreshPosts()
         endSelection()
     }
 
@@ -101,7 +92,6 @@ class PostListViewModel @Inject constructor(private val repository: PostReposito
 
     fun deletePosts() = viewModelScope.launch {
         repository.deletePosts(selectedPosts.value)
-        refreshPosts()
         endSelection()
     }
 }
@@ -118,7 +108,6 @@ sealed interface PostListUiState {
 
     data class HasPosts(
         val posts: List<Post>,
-        val read: List<Long>,
         val selectionMode: Boolean,
         val selectedPosts: List<Long>,
         override val isLoading: Boolean,
@@ -128,7 +117,6 @@ sealed interface PostListUiState {
 
 private data class PostListViewModelState(
     val posts: List<Post> = emptyList(),
-    val read: List<Long> = emptyList(),
     val isLoading: Boolean = false,
     val selectionMode: Boolean = false,
     val selectedPosts: List<Long> = emptyList(),
@@ -144,7 +132,6 @@ private data class PostListViewModelState(
         } else {
             PostListUiState.HasPosts(
                 posts = posts,
-                read = read,
                 isLoading = isLoading,
                 selectionMode = selectionMode,
                 selectedPosts = selectedPosts,

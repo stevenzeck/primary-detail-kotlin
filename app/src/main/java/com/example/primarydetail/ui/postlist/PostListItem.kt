@@ -22,7 +22,6 @@ import com.example.primarydetail.model.Post
 @Composable
 fun PostListItem(
     post: Post,
-    isRead: Boolean,
     onItemClicked: (Long) -> Unit,
     isSelectionMode: Boolean,
     isSelected: Boolean,
@@ -55,7 +54,7 @@ fun PostListItem(
         ) {
             Text(
                 text = post.title,
-                fontWeight = if (isRead) FontWeight.Normal else FontWeight.Bold,
+                fontWeight = if (post.read) FontWeight.Normal else FontWeight.Bold,
             )
         }
     }

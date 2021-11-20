@@ -48,7 +48,7 @@ fun PrimaryDetailApp(fm: FragmentManager) {
                                     )
                                 }
                             } else if (appState.inActionMode) {
-                                IconButton(onClick = { appState.actionToTake = 1 }) {
+                                IconButton(onClick = {  }) {
                                     Icon(
                                         imageVector = Icons.Filled.Close,
                                         contentDescription = stringResource(id = R.string.clear_selected),
@@ -58,13 +58,13 @@ fun PrimaryDetailApp(fm: FragmentManager) {
                         },
                         actions = {
                             if (appState.inActionMode) {
-                                IconButton(onClick = { appState.actionToTake = 2 }) {
+                                IconButton(onClick = {  }) {
                                     Icon(
                                         imageVector = Icons.Filled.Delete,
                                         contentDescription = stringResource(id = R.string.delete),
                                     )
                                 }
-                                IconButton(onClick = { appState.actionToTake = 3 }) {
+                                IconButton(onClick = {  }) {
                                     Icon(
                                         imageVector = Icons.Filled.MarkEmailRead,
                                         contentDescription = stringResource(id = R.string.markRead),

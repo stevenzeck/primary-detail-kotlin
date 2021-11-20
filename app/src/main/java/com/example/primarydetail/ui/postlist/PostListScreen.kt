@@ -19,41 +19,29 @@ import com.example.primarydetail.model.Post
 @Composable
 fun PostListScreen(
     navigateToPostDetail: (Long) -> Unit,
-    actionToTake: Int,
-    finishActions: () -> Unit,
     selectedPosts: (Int) -> Unit,
     viewModel: PostListViewModel = hiltViewModel()
 ) {
     val listState = rememberLazyListState()
     val uiState by viewModel.uiState.collectAsState()
 
-    // FIXME this is horrible
-    when (actionToTake) {
-        1 -> { viewModel.endSelection() }
-        2 -> { viewModel.deletePosts() }
-        3 -> { viewModel.markRead() }
-        else -> {}
-    }
-    finishActions()
-
-    when (uiState) {
+    when (val state: PostListUiState = uiState) {
         is PostListUiState.HasPosts -> {
-            selectedPosts((uiState as PostListUiState.HasPosts).selectedPosts.size)
+            selectedPosts(state.selectedPosts.size)
             PostList(
                 listState = listState,
-                posts = (uiState as PostListUiState.HasPosts).posts,
-                read = (uiState as PostListUiState.HasPosts).read,
+                posts = state.posts,
                 navigateToPostDetail = {
                     viewModel.markRead(it)
                     navigateToPostDetail(it)
                 },
-                selectionMode = (uiState as PostListUiState.HasPosts).selectionMode,
-                selectedPosts = (uiState as PostListUiState.HasPosts).selectedPosts,
+                selectionMode = state.selectionMode,
+                selectedPosts = state.selectedPosts,
                 startSelection = { id -> viewModel.startSelection(id) },
                 toggleSelected = { id -> viewModel.toggleSelected(id) },
             )
         }
-        else -> Loading()
+        is PostListUiState.NoPosts -> Loading()
     }
 }
 
@@ -62,7 +50,6 @@ fun PostListScreen(
 fun PostList(
     listState: LazyListState,
     posts: List<Post>,
-    read: List<Long>,
     navigateToPostDetail: (Long) -> Unit,
     selectionMode: Boolean,
     selectedPosts: List<Long>,
@@ -78,7 +65,6 @@ fun PostList(
         ) { post ->
             PostListItem(
                 post = post,
-                isRead = read.contains(post.id),
                 onItemClicked = navigateToPostDetail,
                 isSelectionMode = selectionMode,
                 isSelected = selectionMode && post.id in selectedPosts,

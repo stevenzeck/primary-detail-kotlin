@@ -39,8 +39,6 @@ fun PrimaryDetailNavGraph(
             appState.topBarText = stringResource(id = R.string.title_post_list)
             PostListScreen(
                 navigateToPostDetail = actions.navigateToPostDetail,
-                actionToTake = appState.actionToTake,
-                finishActions = { appState.actionToTake = 0 },
                 selectedPosts = {
                     appState.selectedItems = it
                 }

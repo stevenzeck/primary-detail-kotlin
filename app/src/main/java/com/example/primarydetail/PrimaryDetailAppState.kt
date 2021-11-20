@@ -38,13 +38,6 @@ class PrimaryDetailAppState(
         @Composable get() = selectedItems > 0
 
     var selectedItems: Int by mutableStateOf(0)
-
-    // FIXME this is horrible
-    // 0 = nothing
-    // 1 = end action mode
-    // 2 = delete selected
-    // 3 = mark read selected
-    var actionToTake: Int by mutableStateOf(0)
 }
 
 @ExperimentalMaterial3Api
