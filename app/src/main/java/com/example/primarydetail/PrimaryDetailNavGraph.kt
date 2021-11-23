@@ -37,7 +37,7 @@ fun PrimaryDetailNavGraph(
         composable(MainDestinations.POSTS_LIST_ROUTE) {
             PostListScreen(
                 navigateToPostDetail = actions.navigateToPostDetail,
-                selectedPosts = { appState.selectedItems = it },
+                selectedPosts = { appState.numSelectedItems = it },
                 actionModeActions = {
                     appState.toolbarActions = it
                 },

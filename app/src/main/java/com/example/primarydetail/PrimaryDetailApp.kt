@@ -32,8 +32,8 @@ fun PrimaryDetailApp(fm: FragmentManager) {
                                 Text(
                                     text = appState.resources.getQuantityString(
                                         R.plurals.count_selected,
-                                        appState.selectedItems,
-                                        appState.selectedItems
+                                        appState.numSelectedItems,
+                                        appState.numSelectedItems
                                     )
                                 )
                             } else {
@@ -41,31 +41,30 @@ fun PrimaryDetailApp(fm: FragmentManager) {
                             }
                         },
                         navigationIcon = {
-                            if (appState.shouldShowBackButton) {
+                            if (appState.showBackButton) {
                                 IconButton(onClick = appState::upPress) {
                                     Icon(
                                         imageVector = Icons.Filled.ArrowBack,
                                         contentDescription = stringResource(id = R.string.back),
                                     )
                                 }
-                            } else if (appState.inActionMode && appState.navigationAction != null) {
-                                appState.navigationAction.let {
-                                    it!!
-                                    IconButton(onClick = it.action) {
+                            } else if (appState.inActionMode) {
+                                appState.navigationAction.apply {
+                                    IconButton(onClick = action) {
                                         Icon(
-                                            imageVector = it.icon,
-                                            contentDescription = it.description
+                                            imageVector = icon!!,
+                                            contentDescription = description
                                         )
                                     }
                                 }
                             }
                         },
                         actions = {
-                            if (appState.inActionMode || appState.onDetailScreen) {
+                            if (appState.screenHasActions) {
                                 appState.toolbarActions.forEach {
                                     IconButton(onClick = it.action) {
                                         Icon(
-                                            imageVector = it.icon,
+                                            imageVector = it.icon!!,
                                             contentDescription = it.description,
                                         )
                                     }

@@ -27,30 +27,30 @@ class PrimaryDetailAppState(
         navController.navigateUp()
     }
 
-    val currentRoute: State<NavBackStackEntry?>
+    private val currentRoute: State<NavBackStackEntry?>
         @Composable get() = navController
             .currentBackStackEntryAsState()
 
-    val shouldShowBackButton: Boolean
+    val showBackButton: Boolean
         @Composable get() = !arrayOf(
             POSTS_LIST_ROUTE,
         ).contains(currentRoute.value?.destination?.route)
 
     // TODO Not crazy about this and the two below it being in AppState
-    val onDetailScreen: Boolean
-        @Composable get() = arrayOf(
+    val screenHasActions: Boolean
+        @Composable get() = inActionMode || arrayOf(
             POST_DETAIL_ROUTE,
         ).contains(currentRoute.value?.destination?.route?.substringBefore("/"))
 
     val inActionMode: Boolean
-        @Composable get() = selectedItems > 0
+        @Composable get() = numSelectedItems > 0
 
-    var selectedItems: Int by mutableStateOf(0)
+    var numSelectedItems: Int by mutableStateOf(0)
 
     // TODO Can these be moved out of AppState and have the state flow directly to the Scaffold?
     var toolbarActions: List<ToolbarActionItem> = mutableStateListOf()
 
-    var navigationAction: ToolbarActionItem? = null
+    var navigationAction: ToolbarActionItem by mutableStateOf(ToolbarActionItem(action = {}))
 }
 
 @ExperimentalMaterial3Api
