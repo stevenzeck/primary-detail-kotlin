@@ -6,13 +6,20 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Divider
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.MarkEmailRead
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.primarydetail.R
 import com.example.primarydetail.model.Post
+import com.example.primarydetail.util.ToolbarActionItem
 
 
 @ExperimentalFoundationApi
@@ -20,10 +27,17 @@ import com.example.primarydetail.model.Post
 fun PostListScreen(
     navigateToPostDetail: (Long) -> Unit,
     selectedPosts: (Int) -> Unit,
+    actionModeActions: (List<ToolbarActionItem>) -> Unit,
+    navigationAction: (ToolbarActionItem) -> Unit,
+    toolbarTitle: (String) -> Unit,
     viewModel: PostListViewModel = hiltViewModel()
 ) {
     val listState = rememberLazyListState()
     val uiState by viewModel.uiState.collectAsState()
+
+    toolbarTitle(stringResource(id = R.string.title_post_list))
+    actionModeActions(getActionModeActions(viewModel))
+    navigationAction(getNavigationAction(viewModel))
 
     when (val state: PostListUiState = uiState) {
         is PostListUiState.HasPosts -> {
@@ -81,4 +95,26 @@ fun PostList(
 @Composable
 fun Loading() {
     Text(text = "Loading...")
+}
+
+@Composable
+fun getActionModeActions(viewModel: PostListViewModel): List<ToolbarActionItem> {
+    return listOf(
+        ToolbarActionItem(
+            Icons.Filled.Delete,
+            stringResource(id = R.string.delete)
+        ) { viewModel.deletePosts() },
+        ToolbarActionItem(
+            Icons.Filled.MarkEmailRead,
+            stringResource(id = R.string.markRead)
+        ) { viewModel.markRead() },
+    )
+}
+
+@Composable
+fun getNavigationAction(viewModel: PostListViewModel): ToolbarActionItem {
+    return ToolbarActionItem(
+        Icons.Filled.Close,
+        stringResource(id = R.string.clear_selected)
+    ) { viewModel.endSelection() }
 }

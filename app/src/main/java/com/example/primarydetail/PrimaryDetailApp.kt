@@ -2,7 +2,8 @@ package com.example.primarydetail
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -47,28 +48,27 @@ fun PrimaryDetailApp(fm: FragmentManager) {
                                         contentDescription = stringResource(id = R.string.back),
                                     )
                                 }
-                            } else if (appState.inActionMode) {
-                                IconButton(onClick = {  }) {
-                                    Icon(
-                                        imageVector = Icons.Filled.Close,
-                                        contentDescription = stringResource(id = R.string.clear_selected),
-                                    )
+                            } else if (appState.inActionMode && appState.navigationAction != null) {
+                                appState.navigationAction.let {
+                                    it!!
+                                    IconButton(onClick = it.action) {
+                                        Icon(
+                                            imageVector = it.icon,
+                                            contentDescription = it.description
+                                        )
+                                    }
                                 }
                             }
                         },
                         actions = {
-                            if (appState.inActionMode) {
-                                IconButton(onClick = {  }) {
-                                    Icon(
-                                        imageVector = Icons.Filled.Delete,
-                                        contentDescription = stringResource(id = R.string.delete),
-                                    )
-                                }
-                                IconButton(onClick = {  }) {
-                                    Icon(
-                                        imageVector = Icons.Filled.MarkEmailRead,
-                                        contentDescription = stringResource(id = R.string.markRead),
-                                    )
+                            if (appState.inActionMode || appState.onDetailScreen) {
+                                appState.toolbarActions.forEach {
+                                    IconButton(onClick = it.action) {
+                                        Icon(
+                                            imageVector = it.icon,
+                                            contentDescription = it.description,
+                                        )
+                                    }
                                 }
                             } else {
                                 IconButton(onClick = actions.navigateToSettings) {

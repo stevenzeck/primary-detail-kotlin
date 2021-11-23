@@ -4,22 +4,33 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.primarydetail.R
 import com.example.primarydetail.model.Post
 import com.example.primarydetail.ui.postlist.Loading
+import com.example.primarydetail.util.ToolbarActionItem
 
 @Composable
 fun PostDetailScreen(
+    onDeleted: () -> Unit,
+    actionModeActions: (List<ToolbarActionItem>) -> Unit,
+    toolbarTitle: (String) -> Unit,
     viewModel: PostDetailViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+
+    toolbarTitle(stringResource(id = R.string.title_post_detail))
+    actionModeActions(getActionModeActions(viewModel, onDeleted))
 
     when (uiState) {
         is PostDetailUiState.HasPost -> PostDetailContent(
@@ -43,4 +54,20 @@ fun PostDetailContent(post: Post) {
             }
         }
     }
+}
+
+@Composable
+fun getActionModeActions(
+    viewModel: PostDetailViewModel,
+    onDeleted: () -> Unit
+): List<ToolbarActionItem> {
+    return listOf(
+        ToolbarActionItem(
+            Icons.Filled.Delete,
+            stringResource(id = R.string.delete),
+        ) {
+            viewModel.deletePost()
+            onDeleted()
+        },
+    )
 }

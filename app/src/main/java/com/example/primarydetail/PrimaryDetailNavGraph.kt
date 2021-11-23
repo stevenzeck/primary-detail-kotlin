@@ -3,7 +3,6 @@ package com.example.primarydetail
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -36,17 +35,20 @@ fun PrimaryDetailNavGraph(
         startDestination = startDestination
     ) {
         composable(MainDestinations.POSTS_LIST_ROUTE) {
-            appState.topBarText = stringResource(id = R.string.title_post_list)
             PostListScreen(
                 navigateToPostDetail = actions.navigateToPostDetail,
-                selectedPosts = {
-                    appState.selectedItems = it
-                }
+                selectedPosts = { appState.selectedItems = it },
+                actionModeActions = {
+                    appState.toolbarActions = it
+                },
+                navigationAction = {
+                    appState.navigationAction = it
+                },
+                toolbarTitle = { appState.topBarText = it }
             )
         }
         composable(MainDestinations.SETTINGS_ROUTE) {
-            appState.topBarText = stringResource(id = R.string.title_settings)
-            SettingsScreen(fm)
+            SettingsScreen(fm, toolbarTitle = { appState.topBarText = it })
         }
         composable("${MainDestinations.POST_DETAIL_ROUTE}/{$POST_DETAIL_ID_KEY}",
             arguments = listOf(
@@ -54,8 +56,11 @@ fun PrimaryDetailNavGraph(
                     type = NavType.LongType
                 }
             )) { backStackEntry ->
-            appState.topBarText = stringResource(id = R.string.title_post_detail)
-            PostDetailScreen()
+            PostDetailScreen(
+                onDeleted = appState::upPress,
+                actionModeActions = { appState.toolbarActions = it },
+                toolbarTitle = { appState.topBarText = it }
+            )
         }
     }
 }

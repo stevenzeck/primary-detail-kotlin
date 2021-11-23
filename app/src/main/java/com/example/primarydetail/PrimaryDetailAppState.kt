@@ -12,6 +12,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.primarydetail.MainDestinations.POSTS_LIST_ROUTE
+import com.example.primarydetail.MainDestinations.POST_DETAIL_ROUTE
+import com.example.primarydetail.util.ToolbarActionItem
 
 @ExperimentalMaterial3Api
 class PrimaryDetailAppState(
@@ -34,10 +36,21 @@ class PrimaryDetailAppState(
             POSTS_LIST_ROUTE,
         ).contains(currentRoute.value?.destination?.route)
 
+    // TODO Not crazy about this and the two below it being in AppState
+    val onDetailScreen: Boolean
+        @Composable get() = arrayOf(
+            POST_DETAIL_ROUTE,
+        ).contains(currentRoute.value?.destination?.route?.substringBefore("/"))
+
     val inActionMode: Boolean
         @Composable get() = selectedItems > 0
 
     var selectedItems: Int by mutableStateOf(0)
+
+    // TODO Can these be moved out of AppState and have the state flow directly to the Scaffold?
+    var toolbarActions: List<ToolbarActionItem> = mutableStateListOf()
+
+    var navigationAction: ToolbarActionItem? = null
 }
 
 @ExperimentalMaterial3Api

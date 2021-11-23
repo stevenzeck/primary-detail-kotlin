@@ -64,7 +64,9 @@ class PostDetailViewModel @Inject constructor(
      * Delete a post via repository
      */
     fun deletePost() = viewModelScope.launch {
-        postId?.let { repository.deletePost(it) }
+        postId?.let {
+            repository.deletePost(it)
+        }
     }
 }
 
