@@ -26,10 +26,11 @@ fun PostListItem(
     isSelectionMode: Boolean,
     isSelected: Boolean,
     startSelection: (Long) -> Unit,
-    toggleSelected: (Long) -> Unit
+    toggleSelected: (Long) -> Unit,
+    modifier: Modifier,
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .combinedClickable(
                 onClick = {
                     if (isSelectionMode) {

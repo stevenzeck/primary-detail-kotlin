@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.primarydetail.R
@@ -83,7 +84,8 @@ fun PostList(
                 isSelectionMode = selectionMode,
                 isSelected = selectionMode && post.id in selectedPosts,
                 startSelection = startSelection,
-                toggleSelected = toggleSelected
+                toggleSelected = toggleSelected,
+                modifier = Modifier.animateItemPlacement()
             )
             Divider(
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)
