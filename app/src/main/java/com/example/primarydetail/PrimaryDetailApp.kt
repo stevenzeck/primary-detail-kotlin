@@ -24,7 +24,6 @@ fun PrimaryDetailApp(fm: FragmentManager) {
             val actions = remember(appState.navController) { MainActions(appState.navController) }
 
             Scaffold(
-                scaffoldState = appState.scaffoldState,
                 topBar = {
                     SmallTopAppBar(
                         title = {

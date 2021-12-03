@@ -2,8 +2,6 @@ package com.example.primarydetail
 
 import android.content.res.Resources
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ScaffoldState
-import androidx.compose.material3.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -17,7 +15,6 @@ import com.example.primarydetail.util.ToolbarActionItem
 
 @ExperimentalMaterial3Api
 class PrimaryDetailAppState(
-    val scaffoldState: ScaffoldState,
     val navController: NavHostController,
     val resources: Resources,
 ) {
@@ -56,11 +53,10 @@ class PrimaryDetailAppState(
 @ExperimentalMaterial3Api
 @Composable
 fun rememberPrimaryDetailState(
-    scaffoldState: ScaffoldState = rememberScaffoldState(),
     navController: NavHostController = rememberNavController(),
     resources: Resources = resources(),
-) = remember(scaffoldState, navController, resources) {
-    PrimaryDetailAppState(scaffoldState, navController, resources)
+) = remember(navController, resources) {
+    PrimaryDetailAppState(navController, resources)
 }
 
 @Composable

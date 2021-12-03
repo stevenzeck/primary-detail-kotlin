@@ -55,7 +55,7 @@ fun PrimaryDetailNavGraph(
                 navArgument(POST_DETAIL_ID_KEY) {
                     type = NavType.LongType
                 }
-            )) { backStackEntry ->
+            )) {
             PostDetailScreen(
                 onDeleted = appState::upPress,
                 actionModeActions = { appState.toolbarActions = it },
