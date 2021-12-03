@@ -73,7 +73,7 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
 
     // Material
-    implementation 'com.google.android.material:material:1.5.0-beta01'
+    implementation 'com.google.android.material:material:1.6.0-alpha01'
 
     // Kotlin Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
@@ -85,11 +85,11 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
 
     // Retrofit/okhttp logging interceptor
-    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3'
 
     // Hilt
-    implementation 'com.google.dagger:hilt-android:2.40.1'
-    kapt 'com.google.dagger:hilt-compiler:2.40.1'
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
     // Test
     testImplementation 'junit:junit:4.13.2'
