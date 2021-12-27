@@ -1,16 +1,17 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.kotlin_version = "1.6.10"
-    ext.room_version = "2.4.0"
-    ext.hilt_version = '2.40.5'
+    val kotlinVersion by extra("1.6.10")
+    val roomVersion by extra("2.4.0")
+    val hiltVersion by extra("2.40.5")
+
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.4'
-        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.39.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath("com.android.tools.build:gradle:7.0.4")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:2.39.1")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -24,6 +25,6 @@ allprojects {
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+tasks.register("clean", Delete::class).configure {
+    delete(rootProject.buildDir)
 }
