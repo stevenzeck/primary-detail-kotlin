@@ -9,6 +9,8 @@ plugins {
 val kotlinVersion = rootProject.extra["kotlinVersion"] as String
 val roomVersion = rootProject.extra["roomVersion"] as String
 val hiltVersion = rootProject.extra["hiltVersion"] as String
+val composeVersion = rootProject.extra["composeVersion"] as String
+val accompanistVersion = rootProject.extra["accompanistVersion"] as String
 
 android {
     compileSdk = 31
@@ -26,7 +28,10 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
         getByName("debug") {
             isDebuggable = true
@@ -39,12 +44,16 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
-        jvmTarget = "1.8"
+    composeOptions {
+        kotlinCompilerExtensionVersion = composeVersion
     }
 
     buildFeatures {
-        viewBinding = true
+        compose = true
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 
@@ -55,15 +64,8 @@ dependencies {
     // AndroidX Core
     implementation("androidx.appcompat:appcompat:1.4.0")
     implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.2")
-    implementation("androidx.recyclerview:recyclerview:1.2.1")
-    implementation("androidx.recyclerview:recyclerview-selection:1.1.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.preference:preference-ktx:1.1.1")
-
-    // Fragments/Navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:2.3.5")
-    implementation("androidx.navigation:navigation-ui-ktx:2.3.5")
 
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
@@ -93,7 +95,25 @@ dependencies {
 
     // Hilt
     implementation("com.google.dagger:hilt-android:$hiltVersion")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0-rc01")
     kapt("com.google.dagger:hilt-compiler:$hiltVersion")
+
+    // Compose
+    implementation("androidx.compose.runtime:runtime:$composeVersion")
+    implementation("androidx.compose.ui:ui:$composeVersion")
+    implementation("androidx.compose.foundation:foundation:$composeVersion")
+    implementation("androidx.compose.material:material:$composeVersion")
+    implementation("androidx.compose.material3:material3:1.0.0-alpha02")
+    implementation("androidx.activity:activity-compose:1.4.0")
+    implementation("androidx.navigation:navigation-compose:2.4.0-rc01")
+    implementation("com.google.android.material:compose-theme-adapter:1.1.2")
+    implementation("androidx.compose.material:material-icons-extended:$composeVersion")
+    debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
+
+    // Accompanist
+    implementation("com.google.accompanist:accompanist-swiperefresh:$accompanistVersion")
+    implementation("com.google.accompanist:accompanist-insets:$accompanistVersion")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion")
 
     // Test
     testImplementation("junit:junit:4.13.2")
