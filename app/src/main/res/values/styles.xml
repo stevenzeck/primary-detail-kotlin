@@ -1,7 +1,0 @@
-<resources>
-
-    <style name="DarkThemeApp" parent="@style/Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="windowActionModeOverlay">true</item>
-    </style>
-
-</resources>
