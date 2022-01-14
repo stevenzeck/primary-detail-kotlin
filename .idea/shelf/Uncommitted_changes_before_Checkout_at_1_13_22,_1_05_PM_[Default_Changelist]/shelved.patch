@@ -1,0 +1,19 @@
+Index: build.gradle.kts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// Top-level build file where you can add configuration options common to all sub-projects/modules.\nbuildscript {\n    val kotlinVersion by extra(\"1.6.10\")\n    val roomVersion by extra(\"2.4.0\")\n    val hiltVersion by extra(\"2.40.5\")\n\n    repositories {\n        google()\n        mavenCentral()\n    }\n    dependencies {\n        classpath(\"com.android.tools.build:gradle:7.0.4\")\n        classpath(\"com.google.dagger:hilt-android-gradle-plugin:2.39.1\")\n        classpath(\"org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion\")\n\n        // NOTE: Do not place your application dependencies here; they belong\n        // in the individual module build.gradle files\n    }\n}\n\nallprojects {\n    repositories {\n        google()\n        mavenCentral()\n    }\n}\n\ntasks.register(\"clean\", Delete::class).configure {\n    delete(rootProject.buildDir)\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build.gradle.kts b/build.gradle.kts
+--- a/build.gradle.kts	(revision 5b92143f4e9fd95f0e1a52da22b7796a456b33d2)
++++ b/build.gradle.kts	(date 1642100680333)
+@@ -1,7 +1,7 @@
+ // Top-level build file where you can add configuration options common to all sub-projects/modules.
+ buildscript {
+     val kotlinVersion by extra("1.6.10")
+-    val roomVersion by extra("2.4.0")
++    val roomVersion by extra("2.4.1")
+     val hiltVersion by extra("2.40.5")
+ 
+     repositories {
