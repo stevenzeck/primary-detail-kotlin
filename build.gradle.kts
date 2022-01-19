@@ -4,7 +4,7 @@ buildscript {
     val roomVersion by extra("2.4.1")
     val hiltVersion by extra("2.40.5")
     val composeVersion by extra("1.2.0-alpha01")
-    val accompanistVersion by extra("0.20.0")
+    val accompanistVersion by extra("0.22.0-rc")
 
     repositories {
         google()
