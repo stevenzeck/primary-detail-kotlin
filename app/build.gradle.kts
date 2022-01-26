@@ -55,7 +55,7 @@ dependencies {
     // AndroidX Core
     implementation("androidx.appcompat:appcompat:1.4.1")
     implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.2")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.3")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.recyclerview:recyclerview-selection:1.1.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
@@ -77,7 +77,7 @@ dependencies {
     kapt("androidx.room:room-compiler:$roomVersion")
 
     // Material
-    implementation("com.google.android.material:material:1.6.0-alpha01")
+    implementation("com.google.android.material:material:1.6.0-alpha02")
 
     // Kotlin Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")

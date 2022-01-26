@@ -22,10 +22,10 @@
         android:name="com.example.primarydetail.posts.ui.PostDetailFragment"
         android:label="@string/title_post_detail"
         tools:layout="@layout/post_detail_fragment">
-        <argument
-            android:name="id"
-            android:defaultValue=""
-            app:argType="long" />
+<!--        <argument-->
+<!--            android:name="id"-->
+<!--            android:defaultValue=""-->
+<!--            app:argType="long" />-->
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
