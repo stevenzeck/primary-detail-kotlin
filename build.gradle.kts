@@ -4,14 +4,14 @@ buildscript {
     val roomVersion by extra("2.4.1")
     val hiltVersion by extra("2.40.5")
     val composeVersion by extra("1.2.0-alpha01")
-    val accompanistVersion by extra("0.22.0-rc")
+    val accompanistVersion by extra("0.24.0-alpha")
 
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:7.0.4")
+        classpath("com.android.tools.build:gradle:7.1.0")
         classpath("com.google.dagger:hilt-android-gradle-plugin:2.39.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
 
