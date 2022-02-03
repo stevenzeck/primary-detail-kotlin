@@ -69,7 +69,7 @@ dependencies {
 
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0-alpha01")
     @Suppress("LifecycleAnnotationProcessorWithJava8")
     kapt("androidx.lifecycle:lifecycle-compiler:2.4.0")
 
@@ -91,7 +91,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
 
     // Retrofit/okhttp logging interceptor
-    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3")
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.4")
 
     // Hilt
     implementation("com.google.dagger:hilt-android:$hiltVersion")
@@ -104,7 +104,7 @@ dependencies {
     implementation("androidx.compose.foundation:foundation:$composeVersion")
     implementation("androidx.compose.material:material:$composeVersion")
     implementation("androidx.compose.material3:material3:1.0.0-alpha04")
-    implementation("androidx.activity:activity-compose:1.4.0")
+    implementation("androidx.activity:activity-compose:1.5.0-alpha01")
     implementation("androidx.navigation:navigation-compose:2.5.0-alpha01")
     implementation("com.google.android.material:compose-theme-adapter:1.1.3")
     implementation("androidx.compose.material:material-icons-extended:$composeVersion")
