@@ -63,15 +63,15 @@ dependencies {
 
     // AndroidX Core
     implementation("androidx.appcompat:appcompat:1.4.1")
-    implementation("androidx.core:core-ktx:1.7.0")
+    implementation("androidx.core:core-ktx:1.8.0-alpha08")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.preference:preference-ktx:1.2.0")
 
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0-alpha01")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0-alpha02")
     @Suppress("LifecycleAnnotationProcessorWithJava8")
-    kapt("androidx.lifecycle:lifecycle-compiler:2.4.0")
+    kapt("androidx.lifecycle:lifecycle-compiler:2.4.1")
 
     // Room Database
     implementation("androidx.room:room-runtime:$roomVersion")
@@ -103,10 +103,10 @@ dependencies {
     implementation("androidx.compose.ui:ui:$composeVersion")
     implementation("androidx.compose.foundation:foundation:$composeVersion")
     implementation("androidx.compose.material:material:$composeVersion")
-    implementation("androidx.compose.material3:material3:1.0.0-alpha04")
-    implementation("androidx.activity:activity-compose:1.5.0-alpha01")
-    implementation("androidx.navigation:navigation-compose:2.5.0-alpha01")
-    implementation("com.google.android.material:compose-theme-adapter:1.1.3")
+    implementation("androidx.compose.material3:material3:1.0.0-alpha05")
+    implementation("androidx.activity:activity-compose:1.5.0-alpha02")
+    implementation("androidx.navigation:navigation-compose:2.5.0-alpha02")
+    implementation("com.google.android.material:compose-theme-adapter:1.1.4")
     implementation("androidx.compose.material:material-icons-extended:$composeVersion")
     debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
 
