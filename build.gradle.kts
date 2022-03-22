@@ -2,8 +2,8 @@
 val kotlinVersion by extra("1.6.10")
 val roomVersion by extra("2.4.2")
 val hiltVersion by extra("2.41")
-val composeVersion by extra("1.2.0-alpha04")
-val accompanistVersion by extra("0.24.3-alpha")
+val composeVersion by extra("1.2.0-alpha05")
+val accompanistVersion by extra("0.24.4-alpha")
 
 plugins {
     id("com.android.application") version "7.1.2" apply false
