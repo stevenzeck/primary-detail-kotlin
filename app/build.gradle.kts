@@ -62,8 +62,8 @@ dependencies {
     implementation("androidx.preference:preference-ktx:1.2.0")
 
     // Fragments/Navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:2.4.1")
-    implementation("androidx.navigation:navigation-ui-ktx:2.4.1")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.4.2")
+    implementation("androidx.navigation:navigation-ui-ktx:2.4.2")
 
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
@@ -77,10 +77,10 @@ dependencies {
     kapt("androidx.room:room-compiler:$roomVersion")
 
     // Material
-    implementation("com.google.android.material:material:1.6.0-alpha03")
+    implementation("com.google.android.material:material:1.7.0-alpha01")
 
     // Kotlin Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -89,7 +89,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
 
     // Retrofit/okhttp logging interceptor
-    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.5")
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.6")
 
     // Hilt
     implementation("com.google.dagger:hilt-android:$hiltVersion")
