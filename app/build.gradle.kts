@@ -63,13 +63,13 @@ dependencies {
 
     // AndroidX Core
     implementation("androidx.appcompat:appcompat:1.4.1")
-    implementation("androidx.core:core-ktx:1.9.0-alpha01")
+    implementation("androidx.core:core-ktx:1.9.0-alpha02")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.preference:preference-ktx:1.2.0")
 
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0-alpha04")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0-beta01")
     @Suppress("LifecycleAnnotationProcessorWithJava8")
     kapt("androidx.lifecycle:lifecycle-compiler:2.4.1")
 
@@ -79,10 +79,10 @@ dependencies {
     kapt("androidx.room:room-compiler:$roomVersion")
 
     // Material
-    implementation("com.google.android.material:material:1.6.0-alpha03")
+    implementation("com.google.android.material:material:1.7.0-alpha01")
 
     // Kotlin Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1-native-mt")
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -99,14 +99,13 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:$hiltVersion")
 
     // Compose
+    implementation("androidx.activity:activity-compose:1.6.0-alpha01")
+    implementation("androidx.navigation:navigation-compose:2.5.0-beta01")
+    implementation("androidx.compose.material3:material3:1.0.0-alpha10")
     implementation("androidx.compose.runtime:runtime:$composeVersion")
     implementation("androidx.compose.ui:ui:$composeVersion")
     implementation("androidx.compose.foundation:foundation:$composeVersion")
     implementation("androidx.compose.material:material:$composeVersion")
-    implementation("androidx.compose.material3:material3:1.0.0-alpha07")
-    implementation("androidx.activity:activity-compose:1.5.0-alpha03")
-    implementation("androidx.navigation:navigation-compose:2.5.0-alpha03")
-    implementation("com.google.android.material:compose-theme-adapter:1.1.5")
     implementation("androidx.compose.material:material-icons-extended:$composeVersion")
     debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
 
