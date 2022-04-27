@@ -11,12 +11,12 @@ val roomVersion = rootProject.extra["roomVersion"] as String
 val hiltVersion = rootProject.extra["hiltVersion"] as String
 
 android {
-    compileSdk = 31
+    compileSdk = 32
 
     defaultConfig {
         applicationId = "com.example.primarydetail"
         minSdk = 21
-        targetSdk = 31
+        targetSdk = 32
         versionCode = 1
         versionName = "1.0"
 
