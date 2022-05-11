@@ -1,16 +1,16 @@
 plugins {
     id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-kapt")
-    id("kotlin-parcelize")
+    kotlin("android")
+    kotlin("kapt")
+    kotlin("plugin.parcelize")
     id("dagger.hilt.android.plugin")
 }
 
-val kotlinVersion = rootProject.extra["kotlinVersion"] as String
-val roomVersion = rootProject.extra["roomVersion"] as String
-val hiltVersion = rootProject.extra["hiltVersion"] as String
-val composeVersion = rootProject.extra["composeVersion"] as String
-val accompanistVersion = rootProject.extra["accompanistVersion"] as String
+val kotlinVersion: String by rootProject.extra
+val roomVersion: String by rootProject.extra
+val hiltVersion: String by rootProject.extra
+val composeVersion: String by rootProject.extra
+val accompanistVersion: String by rootProject.extra
 
 android {
     compileSdk = 32
@@ -23,6 +23,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
 
     buildTypes {
@@ -55,6 +59,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    namespace = "com.example.primarydetail"
 }
 
 dependencies {
@@ -99,7 +104,7 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:$hiltVersion")
 
     // Compose
-    implementation("androidx.activity:activity-compose:1.6.0-alpha01")
+    implementation("androidx.activity:activity-compose:1.5.0-beta01")
     implementation("androidx.navigation:navigation-compose:2.5.0-beta01")
     implementation("androidx.compose.material3:material3:1.0.0-alpha10")
     implementation("androidx.compose.runtime:runtime:$composeVersion")
