@@ -2,12 +2,12 @@
 val kotlinVersion by extra("1.6.21")
 val roomVersion by extra("2.4.2")
 val hiltVersion by extra("2.41")
-val composeVersion by extra("1.2.0-alpha08")
+val composeVersion by extra("1.2.0-beta01")
 val accompanistVersion by extra("0.24.7-alpha")
 
 plugins {
     id("com.android.application") version "7.2.0" apply false
-    id("org.jetbrains.kotlin.android") version "1.6.20" apply false
+    id("org.jetbrains.kotlin.android") version "1.6.21" apply false
     id("com.google.dagger.hilt.android") version "2.41" apply false
 }
 
