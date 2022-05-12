@@ -1,8 +1,8 @@
 plugins {
     id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-kapt")
-    id("kotlin-parcelize")
+    kotlin("android")
+    kotlin("kapt")
+    kotlin("plugin.parcelize")
     id("dagger.hilt.android.plugin")
 }
 
@@ -46,6 +46,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    namespace = "com.example.primarydetail"
 }
 
 dependencies {
@@ -89,7 +90,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
 
     // Retrofit/okhttp logging interceptor
-    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.6")
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.7")
 
     // Hilt
     implementation("com.google.dagger:hilt-android:$hiltVersion")
