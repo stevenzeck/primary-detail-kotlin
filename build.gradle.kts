@@ -1,9 +1,9 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 val kotlinVersion by extra("1.6.21")
 val roomVersion by extra("2.4.2")
-val hiltVersion by extra("2.41")
+val hiltVersion by extra("2.42")
 val composeVersion by extra("1.2.0-beta01")
-val accompanistVersion by extra("0.24.7-alpha")
+val accompanistVersion by extra("0.24.8-beta")
 
 plugins {
     id("com.android.application") version "7.2.0" apply false

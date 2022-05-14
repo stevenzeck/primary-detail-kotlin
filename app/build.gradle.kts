@@ -31,13 +31,14 @@ android {
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
         getByName("debug") {
+            isMinifyEnabled = false
             isDebuggable = true
         }
     }
@@ -74,7 +75,7 @@ dependencies {
 
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0-beta01")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0-beta01")
     @Suppress("LifecycleAnnotationProcessorWithJava8")
     kapt("androidx.lifecycle:lifecycle-compiler:2.4.1")
 
