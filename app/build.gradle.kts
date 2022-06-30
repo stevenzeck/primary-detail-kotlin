@@ -50,7 +50,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = composeVersion
+        kotlinCompilerExtensionVersion = "1.2.0"
     }
 
     buildFeatures {
@@ -68,16 +68,11 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
 
     // AndroidX Core
-    implementation("androidx.appcompat:appcompat:1.4.1")
-    implementation("androidx.core:core-ktx:1.9.0-alpha03")
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.preference:preference-ktx:1.2.0")
+    implementation("androidx.appcompat:appcompat:1.4.2")
 
     // ViewModel
-    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0-beta01")
-    @Suppress("LifecycleAnnotationProcessorWithJava8")
-    kapt("androidx.lifecycle:lifecycle-compiler:2.4.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0")
 
     // Room Database
     implementation("androidx.room:room-runtime:$roomVersion")
@@ -85,10 +80,10 @@ dependencies {
     kapt("androidx.room:room-compiler:$roomVersion")
 
     // Material
-    implementation("com.google.android.material:material:1.7.0-alpha01")
+    implementation("com.google.android.material:material:1.7.0-alpha02")
 
     // Kotlin Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
+    runtimeOnly("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.3")
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -97,7 +92,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
 
     // Retrofit/okhttp logging interceptor
-    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.7")
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.9")
 
     // Hilt
     implementation("com.google.dagger:hilt-android:$hiltVersion")
@@ -105,20 +100,19 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:$hiltVersion")
 
     // Compose
-    implementation("androidx.activity:activity-compose:1.5.0-beta01")
-    implementation("androidx.navigation:navigation-compose:2.5.0-beta01")
-    implementation("androidx.compose.material3:material3:1.0.0-alpha11")
+    implementation("androidx.activity:activity-compose:1.6.0-alpha05")
+    implementation("androidx.navigation:navigation-compose:2.5.0")
+    implementation("androidx.compose.material3:material3:1.0.0-alpha14")
     implementation("androidx.compose.runtime:runtime:$composeVersion")
     implementation("androidx.compose.ui:ui:$composeVersion")
     implementation("androidx.compose.foundation:foundation:$composeVersion")
     implementation("androidx.compose.material:material:$composeVersion")
     implementation("androidx.compose.material:material-icons-extended:$composeVersion")
-    debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
 
     // Accompanist
-    implementation("com.google.accompanist:accompanist-swiperefresh:$accompanistVersion")
-    implementation("com.google.accompanist:accompanist-insets:$accompanistVersion")
-    implementation("com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion")
+//    implementation("com.google.accompanist:accompanist-swiperefresh:$accompanistVersion")
+//    implementation("com.google.accompanist:accompanist-insets:$accompanistVersion")
+//    implementation("com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion")
 
     // Test
     testImplementation("junit:junit:4.13.2")
