@@ -2,15 +2,17 @@ package com.example.primarydetail.di
 
 import com.example.primarydetail.services.ApiService
 import com.example.primarydetail.util.BASE_URL
-import com.squareup.moshi.Moshi
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -26,19 +28,16 @@ object NetworkModule {
             .build()
     }
 
+    @OptIn(ExperimentalSerializationApi::class)
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit {
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
             .build()
     }
-
-    @Singleton
-    @Provides
-    fun providesMoshi(): Moshi = Moshi.Builder().build()
 
     @Provides
     fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)

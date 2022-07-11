@@ -33,7 +33,7 @@ class PrimaryDetailAppState(
             POSTS_LIST_ROUTE,
         ).contains(currentRoute.value?.destination?.route)
 
-    // TODO Not crazy about this and the two below it being in AppState
+    // FIXME Actions on Detail screen no longer work, it shows the list screen buttons
     val screenHasActions: Boolean
         @Composable get() = inActionMode || arrayOf(
             POST_DETAIL_ROUTE,
