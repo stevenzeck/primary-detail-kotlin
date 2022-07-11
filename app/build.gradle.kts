@@ -63,13 +63,13 @@ dependencies {
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
     // Fragments/Navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:2.4.2")
-    implementation("androidx.navigation:navigation-ui-ktx:2.4.2")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.5.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.5.0")
 
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0")
     @Suppress("LifecycleAnnotationProcessorWithJava8")
-    kapt("androidx.lifecycle:lifecycle-compiler:2.4.1")
+    kapt("androidx.lifecycle:lifecycle-compiler:2.5.0")
 
     // Room Database
     implementation("androidx.room:room-runtime:$roomVersion")

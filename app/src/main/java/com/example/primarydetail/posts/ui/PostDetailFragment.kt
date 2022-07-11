@@ -2,8 +2,11 @@ package com.example.primarydetail.posts.ui
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.primarydetail.R
 import com.example.primarydetail.databinding.PostDetailItemBinding
@@ -44,27 +47,31 @@ class PostDetailFragment : Fragment() {
         binding.titleTextView.text = post?.title
         binding.bodyTextView.text = post?.body
 
-        // Set to true to show the delete button
-        setHasOptionsMenu(true)
-
         return binding.root
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        if (post != null) {
-            inflater.inflate(R.menu.detail, menu)
-        }
-    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    override fun onOptionsItemSelected(item: MenuItem) =
-        when (item.itemId) {
-            R.id.delete -> {
-                post?.let { viewModel.deletePost(it.id) }
-                findNavController().navigateUp()
-                true
+        val menuHost: MenuHost = requireActivity()
+
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.detail, menu)
             }
-            else -> super.onOptionsItemSelected(item)
-        }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                when (menuItem.itemId) {
+                    R.id.delete -> {
+                        post?.let { viewModel.deletePost(it.id) }
+                        findNavController().navigateUp()
+                    }
+                    else -> return false
+                }
+                return true
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

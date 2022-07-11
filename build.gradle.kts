@@ -1,5 +1,5 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-val kotlinVersion by extra("1.7.0")
+val kotlinVersion by extra("1.7.10")
 val roomVersion by extra("2.4.2")
 val hiltVersion by extra("2.42")
 

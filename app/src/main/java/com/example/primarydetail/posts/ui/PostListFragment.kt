@@ -3,8 +3,11 @@ package com.example.primarydetail.posts.ui
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.view.ActionMode
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.selection.ItemKeyProvider
@@ -35,7 +38,6 @@ class PostListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        setHasOptionsMenu(true)
         _binding = PostListFragmentBinding.inflate(
             inflater, container, false
         )
@@ -44,6 +46,24 @@ class PostListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val menuHost: MenuHost = requireActivity()
+
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.list, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                when (menuItem.itemId) {
+                    R.id.settings -> {
+                        findNavController().navigate(R.id.action_postListFragment_to_settingsFragment)
+                    }
+                    else -> return false
+                }
+                return true
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         // Initialize the RecyclerView adapter
         mAdapter = PostListAdapter(markRead = { long -> markRead(long) })
@@ -187,20 +207,6 @@ class PostListFragment : Fragment() {
             mActionMode?.finish()
             mActionMode = null
             mSelectionTracker.clearSelection()
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.list, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.settings -> {
-            findNavController().navigate(R.id.action_postListFragment_to_settingsFragment)
-            true
-        }
-        else -> {
-            super.onOptionsItemSelected(item)
         }
     }
 
