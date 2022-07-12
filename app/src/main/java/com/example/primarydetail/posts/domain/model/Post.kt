@@ -5,28 +5,30 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.primarydetail.posts.domain.model.Post.Companion.TABLE_NAME
-import com.squareup.moshi.Json
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * The post data class
  * Database structure also defined here
  */
 @Parcelize
+@Serializable
 @Entity(tableName = TABLE_NAME)
 data class Post(
     @PrimaryKey
     @ColumnInfo(name = COLUMN_ID)
-    @field:Json(name = "id")
+    @SerialName("id")
     val id: Long,
     @ColumnInfo(name = COLUMN_USER_ID)
-    @field:Json(name = "userId")
+    @SerialName("userId")
     val userId: Int,
     @ColumnInfo(name = COLUMN_TITLE)
-    @field:Json(name = "title")
+    @SerialName("title")
     val title: String,
     @ColumnInfo(name = COLUMN_BODY)
-    @field:Json(name = "body")
+    @SerialName("body")
     val body: String,
     @ColumnInfo(name = COLUMN_READ)
     var read: Boolean = false

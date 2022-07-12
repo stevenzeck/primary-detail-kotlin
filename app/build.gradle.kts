@@ -3,12 +3,9 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     kotlin("plugin.parcelize")
+    kotlin("plugin.serialization")
     id("dagger.hilt.android.plugin")
 }
-
-val kotlinVersion = rootProject.extra["kotlinVersion"] as String
-val roomVersion = rootProject.extra["roomVersion"] as String
-val hiltVersion = rootProject.extra["hiltVersion"] as String
 
 android {
     compileSdk = 32
@@ -51,52 +48,48 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
+    implementation(libs.kotlin.stdlib)
 
     // AndroidX Core
-    implementation("androidx.appcompat:appcompat:1.4.2")
-    implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.recyclerview:recyclerview:1.2.1")
-    implementation("androidx.recyclerview:recyclerview-selection:1.1.0")
-    implementation("androidx.preference:preference-ktx:1.2.0")
+    implementation(libs.preference)
+    implementation(libs.appcompat)
+    implementation(libs.androidx.core)
+    implementation(libs.constraintlayout)
+    implementation(libs.recyclerview)
+    implementation(libs.recyclerview.selection)
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
     // Fragments/Navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:2.5.0")
-    implementation("androidx.navigation:navigation-ui-ktx:2.5.0")
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
 
     // ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0")
+    implementation(libs.lifecycle.viewmodel)
     @Suppress("LifecycleAnnotationProcessorWithJava8")
-    kapt("androidx.lifecycle:lifecycle-compiler:2.5.0")
+    kapt(libs.lifecycle.compiler)
 
     // Room Database
-    implementation("androidx.room:room-runtime:$roomVersion")
-    implementation("androidx.room:room-ktx:$roomVersion")
-    kapt("androidx.room:room-compiler:$roomVersion")
+    implementation(libs.bundles.room)
+    kapt(libs.room.compiler)
 
     // Material
-    implementation("com.google.android.material:material:1.7.0-alpha02")
+    implementation(libs.material)
 
     // Kotlin Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.3")
+    runtimeOnly(libs.coroutines.android)
 
     // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation(libs.bundles.retrofit)
 
-    // Moshi
-    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
-
-    // Retrofit/okhttp logging interceptor
-    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.9")
+    // Kotlin Serialziation
+    implementation(libs.bundles.kotlin.serialization)
 
     // Hilt
-    implementation("com.google.dagger:hilt-android:$hiltVersion")
-    kapt("com.google.dagger:hilt-compiler:$hiltVersion")
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 
     // Test
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.expresso.core)
 }
