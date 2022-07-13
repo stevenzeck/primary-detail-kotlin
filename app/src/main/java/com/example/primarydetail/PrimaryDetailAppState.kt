@@ -10,18 +10,21 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.primarydetail.MainDestinations.POSTS_LIST_ROUTE
-import com.example.primarydetail.MainDestinations.POST_DETAIL_ROUTE
-import com.example.primarydetail.util.ToolbarActionItem
+import com.example.primarydetail.util.TopBarState
 
 @ExperimentalMaterial3Api
 class PrimaryDetailAppState(
     val navController: NavHostController,
     val resources: Resources,
 ) {
-    var topBarText by mutableStateOf("")
+    var topBarState: TopBarState by mutableStateOf(TopBarState())
 
     fun upPress() {
         navController.navigateUp()
+    }
+
+    fun navigateToSettings() {
+        navController.navigate(MainDestinations.SETTINGS_ROUTE)
     }
 
     private val currentRoute: State<NavBackStackEntry?>
@@ -32,22 +35,6 @@ class PrimaryDetailAppState(
         @Composable get() = !arrayOf(
             POSTS_LIST_ROUTE,
         ).contains(currentRoute.value?.destination?.route)
-
-    // FIXME Actions on Detail screen no longer work, it shows the list screen buttons
-    val screenHasActions: Boolean
-        @Composable get() = inActionMode || arrayOf(
-            POST_DETAIL_ROUTE,
-        ).contains(currentRoute.value?.destination?.route?.substringBefore("/"))
-
-    val inActionMode: Boolean
-        @Composable get() = numSelectedItems > 0
-
-    var numSelectedItems: Int by mutableStateOf(0)
-
-    // TODO Can these be moved out of AppState and have the state flow directly to the Scaffold?
-    var toolbarActions: List<ToolbarActionItem> = mutableStateListOf()
-
-    var navigationAction: ToolbarActionItem by mutableStateOf(ToolbarActionItem(action = {}))
 }
 
 @ExperimentalMaterial3Api

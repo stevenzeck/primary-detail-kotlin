@@ -36,19 +36,14 @@ fun PrimaryDetailNavGraph(
     ) {
         composable(MainDestinations.POSTS_LIST_ROUTE) {
             PostListScreen(
+                updateTopBarState = { appState.topBarState = it },
                 navigateToPostDetail = actions.navigateToPostDetail,
-                selectedPosts = { appState.numSelectedItems = it },
-                actionModeActions = {
-                    appState.toolbarActions = it
-                },
-                navigationAction = {
-                    appState.navigationAction = it
-                },
-                toolbarTitle = { appState.topBarText = it }
+                navigateToSettings = appState::navigateToSettings,
+                resources = appState.resources
             )
         }
         composable(MainDestinations.SETTINGS_ROUTE) {
-            SettingsScreen(fm, toolbarTitle = { appState.topBarText = it })
+            SettingsScreen(fm, topBarState = { appState.topBarState = it })
         }
         composable("${MainDestinations.POST_DETAIL_ROUTE}/{$POST_DETAIL_ID_KEY}",
             arguments = listOf(
@@ -57,9 +52,8 @@ fun PrimaryDetailNavGraph(
                 }
             )) {
             PostDetailScreen(
+                onComposing = { appState.topBarState = it },
                 onDeleted = appState::upPress,
-                actionModeActions = { appState.toolbarActions = it },
-                toolbarTitle = { appState.topBarText = it }
             )
         }
     }
@@ -71,11 +65,5 @@ fun PrimaryDetailNavGraph(
 class MainActions(navController: NavHostController) {
     val navigateToPostDetail: (Long) -> Unit = { postId: Long ->
         navController.navigate("${MainDestinations.POST_DETAIL_ROUTE}/${postId}")
-    }
-    val navigateToSettings: () -> Unit = {
-        navController.navigate(MainDestinations.SETTINGS_ROUTE)
-    }
-    val upPress: () -> Unit = {
-        navController.navigateUp()
     }
 }

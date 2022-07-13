@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -18,19 +20,32 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.primarydetail.R
 import com.example.primarydetail.model.Post
 import com.example.primarydetail.ui.postlist.Loading
-import com.example.primarydetail.util.ToolbarActionItem
+import com.example.primarydetail.util.TopBarState
 
 @Composable
 fun PostDetailScreen(
+    onComposing: (TopBarState) -> Unit,
     onDeleted: () -> Unit,
-    actionModeActions: (List<ToolbarActionItem>) -> Unit,
-    toolbarTitle: (String) -> Unit,
     viewModel: PostDetailViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    toolbarTitle(stringResource(id = R.string.title_post_detail))
-    actionModeActions(getActionModeActions(viewModel, onDeleted))
+    onComposing(
+        TopBarState(
+            title = stringResource(id = R.string.title_post_detail),
+            actions = {
+                IconButton(onClick = {
+                    viewModel.deletePost()
+                    onDeleted()
+                }) {
+                    Icon(
+                        imageVector = Icons.Filled.Delete,
+                        contentDescription = stringResource(id = R.string.delete),
+                    )
+                }
+            }
+        )
+    )
 
     when (uiState) {
         is PostDetailUiState.HasPost -> PostDetailContent(
@@ -54,20 +69,4 @@ fun PostDetailContent(post: Post) {
             }
         }
     }
-}
-
-@Composable
-fun getActionModeActions(
-    viewModel: PostDetailViewModel,
-    onDeleted: () -> Unit
-): List<ToolbarActionItem> {
-    return listOf(
-        ToolbarActionItem(
-            Icons.Filled.Delete,
-            stringResource(id = R.string.delete),
-        ) {
-            viewModel.deletePost()
-            onDeleted()
-        },
-    )
 }

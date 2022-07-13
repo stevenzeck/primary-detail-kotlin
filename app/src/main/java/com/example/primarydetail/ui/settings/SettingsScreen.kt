@@ -9,10 +9,15 @@ import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.FragmentManager
 import com.example.primarydetail.R
 import com.example.primarydetail.settings.SettingsFragment
+import com.example.primarydetail.util.TopBarState
 
 @Composable
-fun SettingsScreen(fm: FragmentManager, toolbarTitle: (String) -> Unit) {
-    toolbarTitle(stringResource(id = R.string.title_settings))
+fun SettingsScreen(fm: FragmentManager, topBarState: (TopBarState) -> Unit) {
+    topBarState(
+        TopBarState(
+            title = stringResource(id = R.string.title_settings)
+        )
+    )
     AndroidView(
         modifier = Modifier.fillMaxSize(),
         factory = {

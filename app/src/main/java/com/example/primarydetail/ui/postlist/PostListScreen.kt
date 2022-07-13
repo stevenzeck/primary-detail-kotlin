@@ -1,5 +1,6 @@
 package com.example.primarydetail.ui.postlist
 
+import android.content.res.Resources
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -10,6 +11,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MarkEmailRead
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,29 +24,38 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.primarydetail.R
 import com.example.primarydetail.model.Post
-import com.example.primarydetail.util.ToolbarActionItem
+import com.example.primarydetail.util.TopBarState
 
 
 @ExperimentalFoundationApi
 @Composable
 fun PostListScreen(
+    updateTopBarState: (TopBarState) -> Unit,
+    navigateToSettings: () -> Unit,
     navigateToPostDetail: (Long) -> Unit,
-    selectedPosts: (Int) -> Unit,
-    actionModeActions: (List<ToolbarActionItem>) -> Unit,
-    navigationAction: (ToolbarActionItem) -> Unit,
-    toolbarTitle: (String) -> Unit,
-    viewModel: PostListViewModel = hiltViewModel()
+    viewModel: PostListViewModel = hiltViewModel(),
+    resources: Resources
 ) {
     val listState = rememberLazyListState()
     val uiState by viewModel.uiState.collectAsState()
 
-    toolbarTitle(stringResource(id = R.string.title_post_list))
-    actionModeActions(getActionModeActions(viewModel))
-    navigationAction(getNavigationAction(viewModel))
+    UpdateTopBarState(
+        updateTopBarState = updateTopBarState,
+        navigateToSettings = navigateToSettings,
+        numSelectedPosts = 0,
+        resources = resources,
+        viewModel = viewModel,
+    )
 
     when (val state: PostListUiState = uiState) {
         is PostListUiState.HasPosts -> {
-            selectedPosts(state.selectedPosts.size)
+            UpdateTopBarState(
+                updateTopBarState = updateTopBarState,
+                navigateToSettings = navigateToSettings,
+                numSelectedPosts = state.selectedPosts.size,
+                resources = resources,
+                viewModel = viewModel
+            )
             PostList(
                 listState = listState,
                 posts = state.posts,
@@ -100,23 +113,57 @@ fun Loading() {
 }
 
 @Composable
-fun getActionModeActions(viewModel: PostListViewModel): List<ToolbarActionItem> {
-    return listOf(
-        ToolbarActionItem(
-            Icons.Filled.Delete,
-            stringResource(id = R.string.delete)
-        ) { viewModel.deletePosts() },
-        ToolbarActionItem(
-            Icons.Filled.MarkEmailRead,
-            stringResource(id = R.string.markRead)
-        ) { viewModel.markRead() },
+fun UpdateTopBarState(
+    updateTopBarState: (TopBarState) -> Unit,
+    navigateToSettings: () -> Unit,
+    numSelectedPosts: Int,
+    resources: Resources,
+    viewModel: PostListViewModel
+) {
+    updateTopBarState(
+        TopBarState(
+            title = if (numSelectedPosts > 0) {
+                resources.getQuantityString(
+                    R.plurals.count_selected,
+                    numSelectedPosts,
+                    numSelectedPosts
+                )
+            } else {
+                stringResource(id = R.string.title_post_list)
+            },
+            navigationAction = {
+                if (numSelectedPosts > 0) {
+                    IconButton(onClick = { viewModel.endSelection() }) {
+                        Icon(
+                            imageVector = Icons.Filled.Close,
+                            contentDescription = stringResource(id = R.string.clear_selected)
+                        )
+                    }
+                }
+            },
+            actions = {
+                if (numSelectedPosts == 0) {
+                    IconButton(onClick = { navigateToSettings() }) {
+                        Icon(
+                            imageVector = Icons.Filled.Settings,
+                            contentDescription = stringResource(id = R.string.title_settings),
+                        )
+                    }
+                } else if (numSelectedPosts > 0) {
+                    IconButton(onClick = { viewModel.deletePosts() }) {
+                        Icon(
+                            imageVector = Icons.Filled.Delete,
+                            contentDescription = stringResource(id = R.string.delete),
+                        )
+                    }
+                    IconButton(onClick = { viewModel.markRead() }) {
+                        Icon(
+                            imageVector = Icons.Filled.MarkEmailRead,
+                            contentDescription = stringResource(id = R.string.markRead),
+                        )
+                    }
+                }
+            }
+        )
     )
-}
-
-@Composable
-fun getNavigationAction(viewModel: PostListViewModel): ToolbarActionItem {
-    return ToolbarActionItem(
-        Icons.Filled.Close,
-        stringResource(id = R.string.clear_selected)
-    ) { viewModel.endSelection() }
 }
