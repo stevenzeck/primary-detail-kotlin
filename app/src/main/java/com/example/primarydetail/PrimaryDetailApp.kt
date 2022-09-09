@@ -25,7 +25,7 @@ fun PrimaryDetailApp(fm: FragmentManager) {
 
         Scaffold(
             topBar = {
-                SmallTopAppBar(
+                TopAppBar(
                     title = {
                         Text(text = appState.topBarState.title)
                     },
