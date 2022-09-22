@@ -39,6 +39,7 @@ class PostDetailFragment : Fragment() {
         // Get the post from the args
         arguments?.let {
             if (it.containsKey(POST)) {
+                // FIXME only pass post ID in the bundle, then retrieve from database
                 post = it.get(POST) as Post
             }
         }
