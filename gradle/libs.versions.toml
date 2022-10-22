@@ -1,7 +1,7 @@
 # Eventually want to use this for dependencies, but Android Studio is not ready
 
 [versions]
-agp = "7.3.0"
+agp = "7.3.1"
 androidx-core = "1.9.0"
 appcompat = "1.5.1"
 constraintlayout = "2.1.4"
