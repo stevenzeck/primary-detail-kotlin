@@ -62,4 +62,7 @@ interface PostsDao {
      */
     @Query("DELETE FROM " + Post.TABLE_NAME + " WHERE " + Post.COLUMN_ID + " = :postId")
     suspend fun deletePost(postId: Long)
+
+    @Query("SELECT * FROM " + Post.TABLE_NAME + " WHERE " + Post.COLUMN_ID + " = :postId")
+    suspend fun postById(postId: Long): Post
 }

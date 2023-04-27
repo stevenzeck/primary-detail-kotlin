@@ -76,7 +76,7 @@ class PostListAdapter(private val markRead: (Long) -> Unit) :
             itemView.isActivated = isActivated
             itemView.isSelected = absoluteAdapterPosition == mSelected
             binding.postTitle.text = post.title
-            val typeface =  if (post.read) Typeface.NORMAL else Typeface.BOLD
+            val typeface = if (post.read) Typeface.NORMAL else Typeface.BOLD
             binding.postTitle.setTypeface(null, typeface)
             binding.root.setOnClickListener {
                 notifyItemChanged(mSelected)
@@ -84,7 +84,7 @@ class PostListAdapter(private val markRead: (Long) -> Unit) :
                 notifyItemChanged(mSelected)
                 markRead(post.id)
 
-                val bundle = bundleOf(POST to post)
+                val bundle = bundleOf(POST_ID to post.id)
 
                 val itemDetailFragmentContainer: View? =
                     binding.root.rootView.findViewById(R.id.post_detail_container)
@@ -107,7 +107,7 @@ class PostListAdapter(private val markRead: (Long) -> Unit) :
     }
 
     companion object {
-        const val POST = "post"
+        const val POST_ID = "postId"
     }
 }
 

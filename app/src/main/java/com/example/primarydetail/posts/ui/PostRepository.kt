@@ -61,4 +61,6 @@ class PostRepository @Inject constructor(
      * @param postId The ID of the post to delete
      */
     suspend fun deletePost(postId: Long) = postsDao.deletePost(postId)
+
+    suspend fun postById(postId: Long) = postsDao.postById(postId)
 }

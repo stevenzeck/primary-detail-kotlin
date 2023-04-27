@@ -1,7 +1,12 @@
 package com.example.primarydetail.posts.ui
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.view.ActionMode
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -9,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.selection.SelectionPredicates
@@ -22,6 +28,7 @@ import com.example.primarydetail.R
 import com.example.primarydetail.databinding.PostListFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class PostListFragment : Fragment() {
@@ -59,6 +66,7 @@ class PostListFragment : Fragment() {
                     R.id.settings -> {
                         findNavController().navigate(R.id.action_postListFragment_to_settingsFragment)
                     }
+
                     else -> return false
                 }
                 return true
@@ -79,12 +87,6 @@ class PostListFragment : Fragment() {
                 DividerItemDecoration(
                     requireContext(),
                     LinearLayoutManager.VERTICAL
-                )
-            )
-            addItemDecoration(
-                DividerItemDecoration(
-                    requireContext(),
-                    LinearLayoutManager.HORIZONTAL
                 )
             )
         }
@@ -124,9 +126,11 @@ class PostListFragment : Fragment() {
             })
 
         viewModel.serverPosts()
-        lifecycleScope.launchWhenStarted {
-            viewModel.posts.collectLatest {
-                mAdapter.submitList(it)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.posts.collectLatest {
+                    mAdapter.submitList(it)
+                }
             }
         }
     }
@@ -194,6 +198,7 @@ class PostListFragment : Fragment() {
                 R.id.delete -> {
                     deletePosts(getSelection())
                 }
+
                 R.id.markRead -> {
                     markRead(getSelection())
                 }

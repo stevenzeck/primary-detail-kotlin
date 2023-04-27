@@ -1,7 +1,7 @@
 # Eventually want to use this for dependencies, but Android Studio is not ready
 
 [versions]
-agp = "7.4.2"
+agp = "8.0.0"
 androidx-core = "1.10.0"
 appcompat = "1.6.1"
 constraintlayout = "2.1.4"
@@ -10,7 +10,7 @@ expresso-core = "3.5.1"
 ext-junit = "1.1.5"
 hilt = "2.45"
 junit = "4.13.2"
-kotlin = "1.8.20"
+kotlin = "1.8.21"
 kotlin-serialization = "1.5.0"
 kotlin-serializaiton-converter = "0.8.0"
 lifecycle = "2.6.1"

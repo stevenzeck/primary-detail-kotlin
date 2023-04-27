@@ -1,18 +1,25 @@
 package com.example.primarydetail.posts.ui
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.primarydetail.R
 import com.example.primarydetail.databinding.PostDetailItemBinding
 import com.example.primarydetail.posts.domain.model.Post
-import com.example.primarydetail.posts.ui.PostListAdapter.Companion.POST
+import com.example.primarydetail.posts.ui.PostListAdapter.Companion.POST_ID
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class PostDetailFragment : Fragment() {
@@ -38,15 +45,15 @@ class PostDetailFragment : Fragment() {
 
         // Get the post from the args
         arguments?.let {
-            if (it.containsKey(POST)) {
-                // FIXME only pass post ID in the bundle, then retrieve from database
-                post = it.get(POST) as Post
+            if (it.containsKey(POST_ID)) {
+                lifecycleScope.launch {
+                    post = viewModel.postById(it.getLong(POST_ID))
+
+                    binding.titleTextView.text = post?.title
+                    binding.bodyTextView.text = post?.body
+                }
             }
         }
-
-        // Set the post variable in post_detail_item to the post from above args
-        binding.titleTextView.text = post?.title
-        binding.bodyTextView.text = post?.body
 
         return binding.root
     }
@@ -67,6 +74,7 @@ class PostDetailFragment : Fragment() {
                         post?.let { viewModel.deletePost(it.id) }
                         findNavController().navigateUp()
                     }
+
                     else -> return false
                 }
                 return true

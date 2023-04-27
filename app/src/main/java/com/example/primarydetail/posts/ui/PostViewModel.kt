@@ -50,4 +50,6 @@ class PostViewModel @Inject constructor(private val repository: PostRepository) 
     fun deletePost(postId: Long) = viewModelScope.launch {
         repository.deletePost(postId)
     }
+
+    suspend fun postById(postId: Long) = repository.postById(postId)
 }
