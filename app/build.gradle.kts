@@ -1,19 +1,19 @@
 plugins {
     id("com.android.application")
     kotlin("android")
-    kotlin("kapt")
     kotlin("plugin.parcelize")
     kotlin("plugin.serialization")
+    id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
 }
 
 android {
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.primarydetail"
         minSdk = 21
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -71,7 +71,7 @@ dependencies {
 
     // Room Database
     implementation(libs.bundles.room)
-    kapt(libs.room.compiler)
+    ksp(libs.room.compiler)
 
     // Material
     implementation(libs.material)
@@ -87,7 +87,7 @@ dependencies {
 
     // Hilt
     implementation(libs.bundles.hilt)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     // Compose
     implementation(libs.bundles.compose)
