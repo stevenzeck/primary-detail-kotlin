@@ -51,6 +51,7 @@ fun PostDetailScreen(
         is PostDetailUiState.HasPost -> PostDetailContent(
             post = (uiState as PostDetailUiState.HasPost).post,
         )
+
         else -> Loading()
     }
 }

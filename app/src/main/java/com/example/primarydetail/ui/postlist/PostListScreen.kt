@@ -6,12 +6,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MarkEmailRead
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -69,6 +69,7 @@ fun PostListScreen(
                 toggleSelected = { id -> viewModel.toggleSelected(id) },
             )
         }
+
         is PostListUiState.NoPosts -> Loading()
     }
 }
@@ -100,7 +101,7 @@ fun PostList(
                 toggleSelected = toggleSelected,
                 modifier = Modifier.animateItemPlacement()
             )
-            Divider(
+            HorizontalDivider(
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)
             )
         }

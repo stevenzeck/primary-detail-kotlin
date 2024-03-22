@@ -1,7 +1,6 @@
 package com.example.primarydetail
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavHostController
@@ -21,7 +20,6 @@ object MainDestinations {
     const val POST_DETAIL_ID_KEY = "postId"
 }
 
-@ExperimentalMaterial3Api
 @ExperimentalFoundationApi
 @Composable
 fun PrimaryDetailNavGraph(

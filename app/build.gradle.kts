@@ -92,6 +92,9 @@ dependencies {
     // Compose
     implementation(libs.bundles.compose)
 
+    // Compose M3 Adaptive
+    implementation(libs.bundles.compose.material3.adaptive)
+
     // Accompanist
     implementation(libs.bundles.accompanist)
 
