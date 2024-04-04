@@ -12,8 +12,8 @@ import com.example.primarydetail.settings.SettingsFragment
 import com.example.primarydetail.util.TopBarState
 
 @Composable
-fun SettingsScreen(fm: FragmentManager, topBarState: (TopBarState) -> Unit) {
-    topBarState(
+fun SettingsScreen(updateTopBarState: (TopBarState) -> Unit, fragmentManager: FragmentManager) {
+    updateTopBarState(
         TopBarState(
             title = stringResource(id = R.string.title_settings)
         )
@@ -23,7 +23,7 @@ fun SettingsScreen(fm: FragmentManager, topBarState: (TopBarState) -> Unit) {
         factory = {
             val view = FragmentContainerView(it)
             view.id = R.id.settings
-            fm.beginTransaction().add(view.id, SettingsFragment()).commit()
+            fragmentManager.beginTransaction().add(view.id, SettingsFragment()).commit()
             view
         },
         update = {}

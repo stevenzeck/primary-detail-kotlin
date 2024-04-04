@@ -32,7 +32,7 @@ import com.example.primarydetail.util.TopBarState
 fun PostListScreen(
     updateTopBarState: (TopBarState) -> Unit,
     navigateToSettings: () -> Unit,
-    navigateToPostDetail: (Long) -> Unit,
+    onPostSelected: (Long) -> Unit,
     viewModel: PostListViewModel = hiltViewModel(),
     resources: Resources
 ) {
@@ -59,9 +59,9 @@ fun PostListScreen(
             PostList(
                 listState = listState,
                 posts = state.posts,
-                navigateToPostDetail = {
+                onPostSelected = {
                     viewModel.markRead(it)
-                    navigateToPostDetail(it)
+                    onPostSelected(it)
                 },
                 selectionMode = state.selectionMode,
                 selectedPosts = state.selectedPosts,
@@ -79,7 +79,7 @@ fun PostListScreen(
 fun PostList(
     listState: LazyListState,
     posts: List<Post>,
-    navigateToPostDetail: (Long) -> Unit,
+    onPostSelected: (Long) -> Unit,
     selectionMode: Boolean,
     selectedPosts: List<Long>,
     startSelection: (Long) -> Unit,
@@ -94,7 +94,7 @@ fun PostList(
         ) { post ->
             PostListItem(
                 post = post,
-                onItemClicked = navigateToPostDetail,
+                onPostSelected = onPostSelected,
                 isSelectionMode = selectionMode,
                 isSelected = selectionMode && post.id in selectedPosts,
                 startSelection = startSelection,

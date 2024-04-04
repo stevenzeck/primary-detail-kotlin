@@ -14,7 +14,6 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.primarydetail.MainDestinations.POSTS_LIST_ROUTE
 import com.example.primarydetail.util.TopBarState
 
 class PrimaryDetailAppState(
@@ -27,17 +26,13 @@ class PrimaryDetailAppState(
         navController.navigateUp()
     }
 
-    fun navigateToSettings() {
-        navController.navigate(MainDestinations.SETTINGS_ROUTE)
-    }
-
     private val currentRoute: State<NavBackStackEntry?>
         @Composable get() = navController
             .currentBackStackEntryAsState()
 
     val showBackButton: Boolean
         @Composable get() = !arrayOf(
-            POSTS_LIST_ROUTE,
+            Screen.PostList.route,
         ).contains(currentRoute.value?.destination?.route)
 }
 

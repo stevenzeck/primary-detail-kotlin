@@ -22,7 +22,7 @@ import com.example.primarydetail.model.Post
 @Composable
 fun PostListItem(
     post: Post,
-    onItemClicked: (Long) -> Unit,
+    onPostSelected: (Long) -> Unit,
     isSelectionMode: Boolean,
     isSelected: Boolean,
     startSelection: (Long) -> Unit,
@@ -36,7 +36,7 @@ fun PostListItem(
                     if (isSelectionMode) {
                         toggleSelected(post.id)
                     } else {
-                        onItemClicked(post.id)
+                        onPostSelected(post.id)
                     }
                 },
                 onLongClickLabel = stringResource(id = R.string.multi_select_description),

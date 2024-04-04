@@ -24,19 +24,19 @@ import com.example.primarydetail.util.TopBarState
 
 @Composable
 fun PostDetailScreen(
-    onComposing: (TopBarState) -> Unit,
-    onDeleted: () -> Unit,
+    updateTopBarState: (TopBarState) -> Unit,
+    onPostDeleted: () -> Unit,
     viewModel: PostDetailViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    onComposing(
+    updateTopBarState(
         TopBarState(
             title = stringResource(id = R.string.title_post_detail),
             actions = {
                 IconButton(onClick = {
                     viewModel.deletePost()
-                    onDeleted()
+                    onPostDeleted()
                 }) {
                     Icon(
                         imageVector = Icons.Filled.Delete,
