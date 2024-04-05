@@ -3,7 +3,6 @@ package com.example.primarydetail.ui
 import com.example.primarydetail.model.Post
 import com.example.primarydetail.services.ApiService
 import com.example.primarydetail.services.PostsDao
-import com.example.primarydetail.util.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -35,13 +34,8 @@ class PostRepository @Inject constructor(
      * Calls the DAO to get a single post from the database
      * @return A [Post]
      */
-    suspend fun postById(postId: Long): Result<Post> {
-        val post = postsDao.postById(postId)
-        return if (post != null) {
-            Result.Success(post)
-        } else {
-            Result.Error(IllegalArgumentException("Unable to find post"))
-        }
+    fun postById(postId: Long): Flow<Post> {
+        return postsDao.postById(postId)
     }
 
     /**

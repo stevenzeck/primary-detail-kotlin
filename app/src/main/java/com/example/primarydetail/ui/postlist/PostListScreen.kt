@@ -17,11 +17,11 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.primarydetail.R
 import com.example.primarydetail.model.Post
 import com.example.primarydetail.util.TopBarState
@@ -37,7 +37,7 @@ fun PostListScreen(
     resources: Resources
 ) {
     val listState = rememberLazyListState()
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.postListUiState.collectAsStateWithLifecycle()
 
     UpdateTopBarState(
         updateTopBarState = updateTopBarState,
@@ -47,30 +47,31 @@ fun PostListScreen(
         viewModel = viewModel,
     )
 
-    when (val state: PostListUiState = uiState) {
-        is PostListUiState.HasPosts -> {
+    when (val currentState = uiState) {
+        is PostListUiState.Success -> {
             UpdateTopBarState(
                 updateTopBarState = updateTopBarState,
                 navigateToSettings = navigateToSettings,
-                numSelectedPosts = state.selectedPosts.size,
+                numSelectedPosts = currentState.selectedPosts.size,
                 resources = resources,
                 viewModel = viewModel
             )
             PostList(
                 listState = listState,
-                posts = state.posts,
+                posts = currentState.posts,
                 onPostSelected = {
                     viewModel.markRead(it)
                     onPostSelected(it)
                 },
-                selectionMode = state.selectionMode,
-                selectedPosts = state.selectedPosts,
+                selectionMode = currentState.selectionMode,
+                selectedPosts = currentState.selectedPosts,
                 startSelection = { id -> viewModel.startSelection(id) },
                 toggleSelected = { id -> viewModel.toggleSelected(id) },
             )
         }
 
-        is PostListUiState.NoPosts -> Loading()
+        is PostListUiState.Failed -> Loading()
+        is PostListUiState.Loading -> Loading()
     }
 }
 
