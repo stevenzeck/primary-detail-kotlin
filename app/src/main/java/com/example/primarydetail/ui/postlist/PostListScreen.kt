@@ -1,6 +1,9 @@
 package com.example.primarydetail.ui.postlist
 
 import android.content.res.Resources
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.VisibilityThreshold
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -20,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.IntOffset
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.primarydetail.R
@@ -32,7 +36,7 @@ import com.example.primarydetail.util.TopBarState
 fun PostListScreen(
     updateTopBarState: (TopBarState) -> Unit,
     navigateToSettings: () -> Unit,
-    onPostSelected: (Long) -> Unit,
+    onPostSelected: (Post) -> Unit,
     viewModel: PostListViewModel = hiltViewModel(),
     resources: Resources
 ) {
@@ -60,7 +64,7 @@ fun PostListScreen(
                 listState = listState,
                 posts = currentState.posts,
                 onPostSelected = {
-                    viewModel.markRead(it)
+                    viewModel.markRead(it.id)
                     onPostSelected(it)
                 },
                 selectionMode = currentState.selectionMode,
@@ -80,7 +84,7 @@ fun PostListScreen(
 fun PostList(
     listState: LazyListState,
     posts: List<Post>,
-    onPostSelected: (Long) -> Unit,
+    onPostSelected: (Post) -> Unit,
     selectionMode: Boolean,
     selectedPosts: List<Long>,
     startSelection: (Long) -> Unit,
@@ -100,7 +104,14 @@ fun PostList(
                 isSelected = selectionMode && post.id in selectedPosts,
                 startSelection = startSelection,
                 toggleSelected = toggleSelected,
-                modifier = Modifier.animateItemPlacement()
+                modifier = Modifier.animateItem(
+                    fadeInSpec = null,
+                    placementSpec = spring(
+                        stiffness = Spring.StiffnessMediumLow,
+                        visibilityThreshold = IntOffset.VisibilityThreshold
+                    ),
+                    fadeOutSpec = null
+                )
             )
             HorizontalDivider(
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)

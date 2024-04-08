@@ -7,7 +7,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.compose.NavHost
-import com.example.primarydetail.ui.postdetail.navigateToPostDetail
 import com.example.primarydetail.ui.postdetail.postDetailScreen
 import com.example.primarydetail.ui.postlist.postListScreen
 import com.example.primarydetail.ui.settings.navigateToSettings
@@ -34,7 +33,7 @@ fun PrimaryDetailNavGraph(
                 appState.navController.navigateToSettings()
             },
             onPostSelected = {
-                appState.navController.navigateToPostDetail(it)
+//                appState.navController.navigateToPostDetail(it)
             },
             resources = appState.resources
         )

@@ -5,13 +5,14 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.primarydetail.Screen
+import com.example.primarydetail.model.Post
 import com.example.primarydetail.util.TopBarState
 
 @OptIn(ExperimentalFoundationApi::class)
 fun NavGraphBuilder.postListScreen(
     updateTopBarState: (TopBarState) -> Unit,
     navigateToSettings: () -> Unit,
-    onPostSelected: (Long) -> Unit,
+    onPostSelected: (Post) -> Unit,
     resources: Resources
 ) {
     composable(route = Screen.PostList.route) {

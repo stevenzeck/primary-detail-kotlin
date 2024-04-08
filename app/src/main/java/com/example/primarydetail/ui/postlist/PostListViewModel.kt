@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,20 +16,24 @@ import javax.inject.Inject
 @HiltViewModel
 class PostListViewModel @Inject constructor(private val repository: PostRepository) : ViewModel() {
 
-    val postListUiState: StateFlow<PostListUiState> =
-        repository.getPosts()
-            .map {
-                PostListUiState.Success(it, false, emptyList())
-            }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = PostListUiState.Loading,
-            )
-
     // Posts that are selected by long press
     private val _selectedPosts = MutableStateFlow(emptyList<Long>())
     private val selectedPosts get() = _selectedPosts.asStateFlow()
+
+    val postListUiState: StateFlow<PostListUiState> = combine(
+        repository.getPosts(),
+        selectedPosts
+    ) { posts, selectedPosts ->
+        if (selectedPosts.isNotEmpty()) {
+            PostListUiState.Success(posts, true, selectedPosts)
+        } else {
+            PostListUiState.Success(posts, false, emptyList())
+        }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = PostListUiState.Loading,
+    )
 
     // Add or remove a post in the selection tracker
     fun toggleSelected(id: Long) {

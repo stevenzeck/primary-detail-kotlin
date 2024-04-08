@@ -21,9 +21,9 @@ fun NavGraphBuilder.postDetailScreen(
         route = "${Screen.PostDetail.route}/{postId}",
         arguments = listOf(navArgument("postId") { type = NavType.LongType })
     ) {
-        PostDetailScreen(
-            updateTopBarState = updateTopBarState,
-            onPostDeleted = onPostDeleted,
-        )
+//        PostDetailScreen(
+//            updateTopBarState = updateTopBarState,
+//            onPostDeleted = onPostDeleted,
+//        )
     }
 }

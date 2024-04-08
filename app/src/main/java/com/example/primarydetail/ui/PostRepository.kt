@@ -4,7 +4,11 @@ import com.example.primarydetail.model.Post
 import com.example.primarydetail.services.ApiService
 import com.example.primarydetail.services.PostsDao
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -13,8 +17,19 @@ class PostRepository @Inject constructor(
     private val postsDao: PostsDao
 ) {
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     fun getPosts(): Flow<List<Post>> {
-        return postsDao.getAllPosts()
+        return postsDao.getAllPosts().flatMapLatest { posts ->
+            if (posts.isEmpty()) {
+                flow {
+                    emit(getServerPosts())
+                }.flatMapLatest {
+                    postsDao.getAllPosts()
+                }
+            } else {
+                flowOf(posts)
+            }
+        }
     }
 
     /**
