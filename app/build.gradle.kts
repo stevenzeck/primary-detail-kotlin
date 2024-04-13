@@ -83,7 +83,7 @@ dependencies {
     implementation(libs.bundles.retrofit)
 
     // Kotlin Serialziation
-    implementation(libs.bundles.kotlin.serialization)
+    implementation(libs.kotlin.serialization.json)
 
     // Hilt
     implementation(libs.bundles.hilt)
