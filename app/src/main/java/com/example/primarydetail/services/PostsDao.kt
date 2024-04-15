@@ -32,7 +32,7 @@ interface PostsDao {
      * @return The post from the database
      */
     @Query("SELECT * FROM ${Post.TABLE_NAME} WHERE ${Post.COLUMN_ID} = :postId")
-    suspend fun postById(postId: Long): Post?
+    fun postById(postId: Long): Flow<Post>
 
     /**
      * Insert posts into the database

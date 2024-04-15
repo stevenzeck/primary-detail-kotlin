@@ -10,13 +10,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.primarydetail.R
 import com.example.primarydetail.model.Post
 import com.example.primarydetail.ui.postlist.Loading
@@ -24,19 +24,19 @@ import com.example.primarydetail.util.TopBarState
 
 @Composable
 fun PostDetailScreen(
-    onComposing: (TopBarState) -> Unit,
-    onDeleted: () -> Unit,
+    updateTopBarState: (TopBarState) -> Unit,
+    onPostDeleted: () -> Unit,
     viewModel: PostDetailViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.postDetailUiState.collectAsStateWithLifecycle()
 
-    onComposing(
+    updateTopBarState(
         TopBarState(
             title = stringResource(id = R.string.title_post_detail),
             actions = {
                 IconButton(onClick = {
                     viewModel.deletePost()
-                    onDeleted()
+                    onPostDeleted()
                 }) {
                     Icon(
                         imageVector = Icons.Filled.Delete,
@@ -47,11 +47,13 @@ fun PostDetailScreen(
         )
     )
 
-    when (uiState) {
-        is PostDetailUiState.HasPost -> PostDetailContent(
-            post = (uiState as PostDetailUiState.HasPost).post,
+    when (val currentState = uiState) {
+        is PostDetailUiState.Success -> PostDetailContent(
+            post = currentState.post,
         )
-        else -> Loading()
+
+        is PostDetailUiState.Failed -> Loading()
+        is PostDetailUiState.Loading -> Loading()
     }
 }
 

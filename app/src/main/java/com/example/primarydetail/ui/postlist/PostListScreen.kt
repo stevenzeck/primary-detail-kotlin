@@ -20,12 +20,12 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.primarydetail.R
 import com.example.primarydetail.model.Post
 import com.example.primarydetail.util.TopBarState
@@ -36,12 +36,12 @@ import com.example.primarydetail.util.TopBarState
 fun PostListScreen(
     updateTopBarState: (TopBarState) -> Unit,
     navigateToSettings: () -> Unit,
-    navigateToPostDetail: (Long) -> Unit,
+    onPostSelected: (Long) -> Unit,
     viewModel: PostListViewModel = hiltViewModel(),
     resources: Resources
 ) {
     val listState = rememberLazyListState()
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.postListUiState.collectAsStateWithLifecycle()
 
     UpdateTopBarState(
         updateTopBarState = updateTopBarState,
@@ -51,30 +51,31 @@ fun PostListScreen(
         viewModel = viewModel,
     )
 
-    when (val state: PostListUiState = uiState) {
-        is PostListUiState.HasPosts -> {
+    when (val currentState = uiState) {
+        is PostListUiState.Success -> {
             UpdateTopBarState(
                 updateTopBarState = updateTopBarState,
                 navigateToSettings = navigateToSettings,
-                numSelectedPosts = state.selectedPosts.size,
+                numSelectedPosts = currentState.selectedPosts.size,
                 resources = resources,
                 viewModel = viewModel
             )
             PostList(
                 listState = listState,
-                posts = state.posts,
-                navigateToPostDetail = {
+                posts = currentState.posts,
+                onPostSelected = {
                     viewModel.markRead(it)
-                    navigateToPostDetail(it)
+                    onPostSelected(it)
                 },
-                selectionMode = state.selectionMode,
-                selectedPosts = state.selectedPosts,
+                selectionMode = currentState.selectionMode,
+                selectedPosts = currentState.selectedPosts,
                 startSelection = { id -> viewModel.startSelection(id) },
                 toggleSelected = { id -> viewModel.toggleSelected(id) },
             )
         }
 
-        is PostListUiState.NoPosts -> Loading()
+        is PostListUiState.Failed -> Loading()
+        is PostListUiState.Loading -> Loading()
     }
 }
 
@@ -83,7 +84,7 @@ fun PostListScreen(
 fun PostList(
     listState: LazyListState,
     posts: List<Post>,
-    navigateToPostDetail: (Long) -> Unit,
+    onPostSelected: (Long) -> Unit,
     selectionMode: Boolean,
     selectedPosts: List<Long>,
     startSelection: (Long) -> Unit,
@@ -98,18 +99,19 @@ fun PostList(
         ) { post ->
             PostListItem(
                 post = post,
-                onItemClicked = navigateToPostDetail,
+                onPostSelected = onPostSelected,
                 isSelectionMode = selectionMode,
                 isSelected = selectionMode && post.id in selectedPosts,
                 startSelection = startSelection,
                 toggleSelected = toggleSelected,
                 modifier = Modifier.animateItem(
-                    fadeInSpec = null,
+                    fadeInSpec = spring(stiffness = Spring.StiffnessMediumLow),
                     placementSpec = spring(
                         stiffness = Spring.StiffnessMediumLow,
                         visibilityThreshold = IntOffset.VisibilityThreshold
                     ),
-                    fadeOutSpec = null
+                    fadeOutSpec =
+                    spring(stiffness = Spring.StiffnessMediumLow),
                 )
             )
             HorizontalDivider(

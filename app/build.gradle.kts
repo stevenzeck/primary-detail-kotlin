@@ -83,7 +83,7 @@ dependencies {
     implementation(libs.bundles.retrofit)
 
     // Kotlin Serialziation
-    implementation(libs.bundles.kotlin.serialization)
+    implementation(libs.kotlin.serialization.json)
 
     // Hilt
     implementation(libs.bundles.hilt)
@@ -91,6 +91,9 @@ dependencies {
 
     // Compose
     implementation(libs.bundles.compose)
+
+    // Compose M3 Adaptive
+    implementation(libs.bundles.compose.material3.adaptive)
 
     // Accompanist
     implementation(libs.bundles.accompanist)
