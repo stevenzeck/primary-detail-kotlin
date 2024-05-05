@@ -54,7 +54,9 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
+        allWarningsAsErrors = true
     }
+
     namespace = "com.example.primarydetail"
 }
 
