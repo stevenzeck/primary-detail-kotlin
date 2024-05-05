@@ -95,9 +95,6 @@ dependencies {
     // Compose M3 Adaptive
     implementation(libs.bundles.compose.material3.adaptive)
 
-    // Accompanist
-    implementation(libs.bundles.accompanist)
-
     // Test
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
