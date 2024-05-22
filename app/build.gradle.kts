@@ -1,10 +1,11 @@
 plugins {
-    id("com.android.application")
-    kotlin("android")
+    alias(libs.plugins.agp)
+    alias(libs.plugins.kotlin)
     kotlin("plugin.parcelize")
     kotlin("plugin.serialization")
     id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -44,17 +45,19 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
-    }
-
     buildFeatures {
         compose = true
     }
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
+        allWarningsAsErrors = true
     }
+
+    composeCompiler {
+
+    }
+
     namespace = "com.example.primarydetail"
 }
 
