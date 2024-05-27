@@ -29,7 +29,6 @@ room = "2.6.1"
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "activity" }
 compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "compose-foundation" }
-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "compose-material" }
 compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "compose-material3" }
 compose-material3-adaptive = { group = "androidx.compose.material3.adaptive", name = "adaptive", version.ref = "compose-material3-adaptive" }
 compose-material3-adaptive-layout = { group = "androidx.compose.material3.adaptive", name = "adaptive-layout", version.ref = "compose-material3-adaptive" }
@@ -59,7 +58,7 @@ room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 
 [bundles]
-compose = ["compose-activity", "compose-foundation", "compose-material", "compose-material-icons", "compose-material3", "compose-navigation", "compose-runtime", "compose-ui", "compose-ui-tooling"]
+compose = ["compose-activity", "compose-foundation", "compose-material-icons", "compose-material3", "compose-navigation", "compose-runtime", "compose-ui", "compose-ui-tooling"]
 compose-material3-adaptive = ["compose-material3-adaptive", "compose-material3-adaptive-layout", "compose-material3-adaptive-navigation"]
 hilt = ["hilt-android", "hilt-compose"]
 retrofit = ["kotlin-serialization-converter", "logging-interceptor", "retrofit"]
