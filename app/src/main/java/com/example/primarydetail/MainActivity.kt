@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, true)
 
         setContent {
-            PrimaryDetailApp(fragmentManager = supportFragmentManager)
+            PrimaryDetailApp()
         }
     }
 }
