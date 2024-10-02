@@ -1,6 +1,6 @@
 [versions]
 accompanist = "0.34.0"
-agp = "8.6.1"
+agp = "8.7.0"
 appcompat = "1.7.0"
 activity = "1.9.2"
 compose-foundation = "1.8.0-alpha02"
