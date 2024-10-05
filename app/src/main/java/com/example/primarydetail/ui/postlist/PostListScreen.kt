@@ -1,9 +1,6 @@
 package com.example.primarydetail.ui.postlist
 
 import android.content.res.Resources
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.VisibilityThreshold
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -23,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.IntOffset
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.primarydetail.R
@@ -104,15 +100,7 @@ fun PostList(
                 isSelected = selectionMode && post.id in selectedPosts,
                 startSelection = startSelection,
                 toggleSelected = toggleSelected,
-                modifier = Modifier.animateItem(
-                    fadeInSpec = spring(stiffness = Spring.StiffnessMediumLow),
-                    placementSpec = spring(
-                        stiffness = Spring.StiffnessMediumLow,
-                        visibilityThreshold = IntOffset.VisibilityThreshold
-                    ),
-                    fadeOutSpec =
-                    spring(stiffness = Spring.StiffnessMediumLow),
-                )
+                modifier = Modifier.animateItem()
             )
             HorizontalDivider(
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)
