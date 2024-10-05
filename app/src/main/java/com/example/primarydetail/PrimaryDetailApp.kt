@@ -19,11 +19,13 @@ import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.primarydetail.model.Post
 import com.example.primarydetail.ui.postdetail.PostDetailScreen
 import com.example.primarydetail.ui.postlist.PostListAdaptiveScreen
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -33,9 +35,12 @@ import com.example.primarydetail.ui.postlist.PostListAdaptiveScreen
 fun PrimaryDetailApp() {
 
     val navigator = rememberListDetailPaneScaffoldNavigator<Post>()
+    val coroutineScope = rememberCoroutineScope()
 
     BackHandler(navigator.canNavigateBack()) {
-        navigator.navigateBack()
+        coroutineScope.launch {
+            navigator.navigateBack()
+        }
     }
 
     Scaffold(
@@ -44,7 +49,7 @@ fun PrimaryDetailApp() {
                 Text(text = stringResource(id = R.string.app_name))
             }, navigationIcon = {
                 if (navigator.canNavigateBack()) {
-                    IconButton(onClick = { navigator.navigateBack() }) {
+                    IconButton(onClick = { coroutineScope.launch { navigator.navigateBack() } }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(id = R.string.back),
@@ -52,8 +57,7 @@ fun PrimaryDetailApp() {
                     }
                 }
             })
-        },
-        modifier = Modifier.fillMaxSize()
+        }, modifier = Modifier.fillMaxSize()
     ) { padding ->
         ListDetailPaneScaffold(
             directive = navigator.scaffoldDirective,
@@ -61,7 +65,12 @@ fun PrimaryDetailApp() {
             listPane = {
                 AnimatedPane {
                     PostListAdaptiveScreen(onPostSelected = { post ->
-                        navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, post)
+                        coroutineScope.launch {
+                            navigator.navigateTo(
+                                ListDetailPaneScaffoldRole.Detail,
+                                post
+                            )
+                        }
                     })
                 }
             },
