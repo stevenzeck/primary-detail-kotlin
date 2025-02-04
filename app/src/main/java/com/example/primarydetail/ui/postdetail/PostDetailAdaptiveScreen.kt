@@ -9,11 +9,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.primarydetail.model.Post
 
 @Composable
-fun PostDetailScreen(post: Post) {
-    Column {
+fun PostDetailScreen(post: Post, viewModel: PostDetailViewModel = hiltViewModel()) {
+    val uiState = viewModel.postDetailUiState.collectAsStateWithLifecycle()
+    val currentUiState = uiState.value
+
+    Column(modifier = Modifier.padding(20.dp)) {
         Row(modifier = Modifier.padding(20.dp)) {
             SelectionContainer {
                 Text(text = post.title, fontSize = 30.sp)
@@ -25,4 +30,23 @@ fun PostDetailScreen(post: Post) {
             }
         }
     }
+
+//    when (currentUiState) {
+//        is PostDetailUiState.Success -> {
+//            Column(modifier = Modifier.padding(20.dp)) {
+//                SelectionContainer {
+//                    Text(text = post.title, fontSize = 30.sp)
+//                    Text(text = post.body, fontSize = 18.sp)
+//                }
+//            }
+//        }
+//
+//        is PostDetailUiState.Failed -> {
+//            Text("Error: ${currentUiState.error.message}")
+//        }
+//
+//        is PostDetailUiState.Loading -> {
+//
+//        }
+//    }
 }

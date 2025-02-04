@@ -3,7 +3,7 @@ package com.example.primarydetail.ui
 import com.example.primarydetail.model.Post
 import com.example.primarydetail.services.ApiService
 import com.example.primarydetail.services.PostsDao
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -14,7 +14,8 @@ import javax.inject.Inject
 
 class PostRepository @Inject constructor(
     private val client: ApiService,
-    private val postsDao: PostsDao
+    private val postsDao: PostsDao,
+    private val ioDispatcher: CoroutineDispatcher
 ) {
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -35,7 +36,7 @@ class PostRepository @Inject constructor(
     /**
      * If there is nothing in the database, get all posts and save them, this is just for example
      */
-    suspend fun getServerPosts() = withContext(Dispatchers.IO) {
+    suspend fun getServerPosts() = withContext(ioDispatcher) {
         insertPosts(client.getAllPosts())
     }
 

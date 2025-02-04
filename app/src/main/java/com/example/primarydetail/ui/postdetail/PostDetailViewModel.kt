@@ -3,10 +3,12 @@ package com.example.primarydetail.ui.postdetail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.primarydetail.model.Post
 import com.example.primarydetail.ui.PostRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -24,7 +26,10 @@ class PostDetailViewModel @Inject constructor(
 
     val postDetailUiState: StateFlow<PostDetailUiState> =
         repository.postById(postId)
-            .map(PostDetailUiState::Success)
+            .map<Post, PostDetailUiState>(PostDetailUiState::Success)
+            .catch { exception ->
+                emit(PostDetailUiState.Failed(exception))
+            }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),

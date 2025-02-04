@@ -29,7 +29,7 @@ fun PostListAdaptiveScreen(
     viewModel: PostListViewModel = hiltViewModel(),
 ) {
     val listState = rememberLazyListState()
-    val uiState by viewModel.postListUiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     when (val currentState = uiState) {
         is PostListUiState.Success -> {
@@ -72,6 +72,7 @@ fun PostListAdaptiveItem(
     onPostSelected: (Post) -> Unit,
     modifier: Modifier,
 ) {
+    //FIXME the entire row isn't clickable
     Row(modifier = modifier
         .clickable { onPostSelected(post) }
         .padding(16.dp)) {

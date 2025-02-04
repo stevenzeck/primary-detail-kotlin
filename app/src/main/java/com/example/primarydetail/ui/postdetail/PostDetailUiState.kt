@@ -11,6 +11,6 @@ sealed interface PostDetailUiState {
     ) : PostDetailUiState
 
     data class Failed(
-        val error: Exception,
+        val error: Throwable,
     ) : PostDetailUiState
 }

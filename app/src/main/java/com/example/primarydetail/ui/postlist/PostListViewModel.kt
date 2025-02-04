@@ -5,82 +5,71 @@ import androidx.lifecycle.viewModelScope
 import com.example.primarydetail.ui.PostRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class PostListViewModel @Inject constructor(private val repository: PostRepository) : ViewModel() {
 
-    // Posts that are selected by long press
-    private val _selectedPosts = MutableStateFlow(emptyList<Long>())
-    private val selectedPosts get() = _selectedPosts.asStateFlow()
+    private val _uiState = MutableStateFlow<PostListUiState>(PostListUiState.Loading)
+    val uiState: StateFlow<PostListUiState> = _uiState.asStateFlow()
 
-    val postListUiState: StateFlow<PostListUiState> = combine(
-        repository.getPosts(),
-        selectedPosts
-    ) { posts, selectedPosts ->
-        if (selectedPosts.isNotEmpty()) {
-            PostListUiState.Success(posts, true, selectedPosts)
-        } else {
-            PostListUiState.Success(posts, false, emptyList())
+    init {
+        viewModelScope.launch {
+            repository.getPosts().collect { posts ->
+                val currentUiState = _uiState.value as? PostListUiState.Success
+                _uiState.value = PostListUiState.Success(
+                    posts,
+                    currentUiState?.selectionMode ?: false,
+                    currentUiState?.selectedPosts ?: emptyList()
+                )
+            }
         }
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = PostListUiState.Loading,
-    )
-
-    // Add or remove a post in the selection tracker
-    fun toggleSelected(id: Long) {
-        _selectedPosts.value = selectedPosts.value.toggle(id)
-
-        if (selectedPosts.value.isEmpty()) {
-            endSelection()
-        }
-//        postListUiState.update {
-//            it.copy(selectedPosts = selectedPosts.value)
-//        }
     }
 
     private fun <T> List<T>.toggle(item: T) =
-        if (item in this)
-            this - item
-        else this + item
+        if (item in this) this - item else this + item
 
-    // Start selection tracking
+    fun toggleSelected(id: Long) {
+        val currentUiState = _uiState.value as? PostListUiState.Success ?: return
+        val updatedSelectedPosts = currentUiState.selectedPosts.toggle(id)
+        _uiState.value = currentUiState.copy(
+            selectedPosts = updatedSelectedPosts,
+            selectionMode = updatedSelectedPosts.isNotEmpty()
+        )
+    }
+
     fun startSelection(id: Long) {
-        _selectedPosts.value = listOf(id)
-//        viewModelState.update {
-//            it.copy(selectionMode = true, selectedPosts = selectedPosts.value)
-//        }
+        val currentUiState = _uiState.value as? PostListUiState.Success ?: return
+        _uiState.value = currentUiState.copy(
+            selectedPosts = listOf(id),
+            selectionMode = true
+        )
     }
 
-    // End selection tracking
     fun endSelection() {
-//        viewModelState.update {
-//            it.copy(selectionMode = false, selectedPosts = emptyList())
-//        }
-//        refreshPosts()
+        val currentUiState = _uiState.value as? PostListUiState.Success ?: return
+        _uiState.value = currentUiState.copy(
+            selectedPosts = emptyList(),
+            selectionMode = false
+        )
     }
 
-    // Mark posts as read via repository
     fun markRead() = viewModelScope.launch {
-        repository.markRead(selectedPosts.value)
+        val currentUiState = _uiState.value as? PostListUiState.Success ?: return@launch
+        repository.markRead(currentUiState.selectedPosts)
         endSelection()
     }
 
-    // Mark single post as read
     fun markRead(postId: Long) = viewModelScope.launch {
         repository.markRead(postId = postId)
     }
 
     fun deletePosts() = viewModelScope.launch {
-        repository.deletePosts(selectedPosts.value)
+        val currentUiState = _uiState.value as? PostListUiState.Success ?: return@launch
+        repository.deletePosts(currentUiState.selectedPosts)
         endSelection()
     }
 }

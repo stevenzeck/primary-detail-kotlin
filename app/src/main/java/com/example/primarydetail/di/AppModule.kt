@@ -8,6 +8,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -17,6 +19,10 @@ object AppModule {
     @ViewModelScoped
     fun provideRepository(
         client: ApiService,
-        postsDao: PostsDao
-    ) = PostRepository(client, postsDao)
+        postsDao: PostsDao,
+        ioDispatcher: CoroutineDispatcher
+    ) = PostRepository(client, postsDao, ioDispatcher)
+
+    @Provides
+    fun provideIoDispatcher(): CoroutineDispatcher = Dispatchers.IO
 }
