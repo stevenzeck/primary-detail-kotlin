@@ -12,41 +12,35 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.primarydetail.model.Post
+import com.example.primarydetail.ui.postlist.Loading
 
 @Composable
 fun PostDetailScreen(post: Post, viewModel: PostDetailViewModel = hiltViewModel()) {
     val uiState = viewModel.postDetailUiState.collectAsStateWithLifecycle()
     val currentUiState = uiState.value
 
-    Column(modifier = Modifier.padding(20.dp)) {
-        Row(modifier = Modifier.padding(20.dp)) {
-            SelectionContainer {
-                Text(text = post.title, fontSize = 30.sp)
+    when (currentUiState) {
+        is PostDetailUiState.Success -> {
+            Column(modifier = Modifier.padding(20.dp)) {
+                Row(modifier = Modifier.padding(20.dp)) {
+                    SelectionContainer {
+                        Text(text = post.title, fontSize = 30.sp)
+                    }
+                }
+                Row(modifier = Modifier.padding(20.dp)) {
+                    SelectionContainer {
+                        Text(text = post.body, fontSize = 18.sp)
+                    }
+                }
             }
         }
-        Row(modifier = Modifier.padding(20.dp)) {
-            SelectionContainer {
-                Text(text = post.body, fontSize = 18.sp)
-            }
+
+        is PostDetailUiState.Failed -> {
+            Text("Error: ${currentUiState.error.message}")
+        }
+
+        is PostDetailUiState.Loading -> {
+            Loading()
         }
     }
-
-//    when (currentUiState) {
-//        is PostDetailUiState.Success -> {
-//            Column(modifier = Modifier.padding(20.dp)) {
-//                SelectionContainer {
-//                    Text(text = post.title, fontSize = 30.sp)
-//                    Text(text = post.body, fontSize = 18.sp)
-//                }
-//            }
-//        }
-//
-//        is PostDetailUiState.Failed -> {
-//            Text("Error: ${currentUiState.error.message}")
-//        }
-//
-//        is PostDetailUiState.Loading -> {
-//
-//        }
-//    }
 }

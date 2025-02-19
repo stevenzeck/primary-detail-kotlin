@@ -3,23 +3,23 @@ package com.example.primarydetail.ui.postlist
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.primarydetail.R
 import com.example.primarydetail.model.Post
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -41,7 +41,9 @@ fun PostListAdaptiveScreen(
                 })
         }
 
-        is PostListUiState.Failed -> Loading()
+        is PostListUiState.Failed -> {
+            Text(text = "Error: ${currentState.error.message}")
+        }
         is PostListUiState.Loading -> Loading()
     }
 }
@@ -72,8 +74,8 @@ fun PostListAdaptiveItem(
     onPostSelected: (Post) -> Unit,
     modifier: Modifier,
 ) {
-    //FIXME the entire row isn't clickable
     Row(modifier = modifier
+        .fillMaxWidth()
         .clickable { onPostSelected(post) }
         .padding(16.dp)) {
         Text(
@@ -85,5 +87,5 @@ fun PostListAdaptiveItem(
 
 @Composable
 fun Loading() {
-    Text(stringResource(R.string.loading))
+    CircularProgressIndicator()
 }

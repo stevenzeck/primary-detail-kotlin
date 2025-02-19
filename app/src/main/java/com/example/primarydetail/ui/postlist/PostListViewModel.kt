@@ -18,13 +18,17 @@ class PostListViewModel @Inject constructor(private val repository: PostReposito
 
     init {
         viewModelScope.launch {
-            repository.getPosts().collect { posts ->
-                val currentUiState = _uiState.value as? PostListUiState.Success
-                _uiState.value = PostListUiState.Success(
-                    posts,
-                    currentUiState?.selectionMode ?: false,
-                    currentUiState?.selectedPosts ?: emptyList()
-                )
+            try {
+                repository.getPosts().collect { posts ->
+                    val currentUiState = _uiState.value as? PostListUiState.Success
+                    _uiState.value = PostListUiState.Success(
+                        posts,
+                        currentUiState?.selectionMode ?: false,
+                        currentUiState?.selectedPosts ?: emptyList()
+                    )
+                }
+            } catch (e: Exception) {
+                _uiState.value = PostListUiState.Failed(e)
             }
         }
     }
