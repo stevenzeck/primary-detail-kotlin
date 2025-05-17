@@ -11,11 +11,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.primarydetail.R
 import com.example.primarydetail.model.Post
 
 @ExperimentalFoundationApi
@@ -23,31 +20,17 @@ import com.example.primarydetail.model.Post
 fun PostListItem(
     post: Post,
     onPostSelected: (Long) -> Unit,
-    isSelectionMode: Boolean,
-    isSelected: Boolean,
-    startSelection: (Long) -> Unit,
-    toggleSelected: (Long) -> Unit,
     modifier: Modifier,
 ) {
     Row(
         modifier = modifier
             .combinedClickable(
                 onClick = {
-                    if (isSelectionMode) {
-                        toggleSelected(post.id)
-                    } else {
-                        onPostSelected(post.id)
-                    }
+                    onPostSelected(post.id)
                 },
-                onLongClickLabel = stringResource(id = R.string.multi_select_description),
-                onLongClick = {
-                    if (!isSelectionMode) {
-                        startSelection(post.id)
-                    }
-                }
             )
             .fillMaxWidth()
-            .background(color = if (isSelected) Color.LightGray else MaterialTheme.colorScheme.background)
+            .background(color = MaterialTheme.colorScheme.background)
     ) {
         Box(
             modifier = Modifier

@@ -9,7 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -48,5 +48,5 @@ fun rememberPrimaryDetailState(
 @ReadOnlyComposable
 private fun resources(): Resources {
     LocalConfiguration.current
-    return LocalContext.current.resources
+    return LocalResources.current
 }

@@ -80,8 +80,8 @@ fun PrimaryDetailTheme(
             }
         }
 
-        useDarkTheme -> LightThemeColors
-        else -> DarkThemeColors
+        useDarkTheme -> DarkThemeColors
+        else -> LightThemeColors
     }
 
     MaterialTheme(

@@ -8,11 +8,9 @@ sealed interface PostListUiState {
 
     data class Success(
         val posts: List<Post>,
-        val selectionMode: Boolean,
-        val selectedPosts: List<Long>
     ) : PostListUiState
 
     data class Failed(
-        val error: Exception
+        val error: Exception,
     ) : PostListUiState
 }

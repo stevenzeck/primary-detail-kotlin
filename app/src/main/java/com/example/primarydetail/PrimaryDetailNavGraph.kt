@@ -10,7 +10,6 @@ import androidx.navigation.compose.NavHost
 import com.example.primarydetail.ui.postdetail.navigateToPostDetail
 import com.example.primarydetail.ui.postdetail.postDetailScreen
 import com.example.primarydetail.ui.postlist.postListScreen
-import com.example.primarydetail.ui.settings.navigateToSettings
 import com.example.primarydetail.ui.settings.settingsScreen
 
 @ExperimentalFoundationApi
@@ -27,24 +26,12 @@ fun PrimaryDetailNavGraph(
     ) {
 
         postListScreen(
-            updateTopBarState = {
-                appState.topBarState = it
-            },
-            navigateToSettings = {
-                appState.navController.navigateToSettings()
-            },
             onPostSelected = {
                 appState.navController.navigateToPostDetail(it)
             },
-            resources = appState.resources
         )
 
-        postDetailScreen(
-            updateTopBarState = {
-                appState.topBarState = it
-            },
-            onPostDeleted = appState::upPress
-        )
+        postDetailScreen()
 
         settingsScreen(
             fragmentManager = fragmentManager,

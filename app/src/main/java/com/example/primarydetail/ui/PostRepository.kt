@@ -1,8 +1,10 @@
 package com.example.primarydetail.ui
 
+import android.util.Log
 import com.example.primarydetail.model.Post
 import com.example.primarydetail.services.ApiService
 import com.example.primarydetail.services.PostsDao
+import com.example.primarydetail.util.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -20,8 +22,15 @@ class PostRepository @Inject constructor(
     /**
      * If there is nothing in the database, get all posts and save them, this is just for example
      */
-    suspend fun getServerPosts() = withContext(Dispatchers.IO) {
-        insertPosts(client.getAllPosts())
+    suspend fun getServerPosts(): Result<Unit> = withContext(Dispatchers.IO) {
+        try {
+            val postsFromServer = client.getAllPosts()
+            insertPosts(postsFromServer)
+            Result.Success(Unit)
+        } catch (e: Exception) {
+            Log.e("PostRepository", "Error fetching or inserting server posts", e)
+            Result.Error(e)
+        }
     }
 
     /**

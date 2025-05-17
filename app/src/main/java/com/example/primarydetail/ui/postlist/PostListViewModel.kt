@@ -1,73 +1,114 @@
 package com.example.primarydetail.ui.postlist
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.primarydetail.ui.PostRepository
+import com.example.primarydetail.util.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class PostListViewModel @Inject constructor(private val repository: PostRepository) : ViewModel() {
 
-    val postListUiState: StateFlow<PostListUiState> =
-        repository.getPosts()
-            .map {
-                PostListUiState.Success(it, false, emptyList())
+    private val _uiState = MutableStateFlow<PostListUiState>(PostListUiState.Loading)
+    val postListUiState: StateFlow<PostListUiState> = _uiState.asStateFlow()
+
+    private var initialFetchAttemptedOrSucceeded = false
+
+    init {
+        loadPosts(isInitialLoad = true)
+    }
+
+    fun loadPosts(isInitialLoad: Boolean = false, forceServerRefresh: Boolean = false) {
+        viewModelScope.launch {
+            if (isInitialLoad || forceServerRefresh || _uiState.value is PostListUiState.Loading) {
+                _uiState.value = PostListUiState.Loading
             }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = PostListUiState.Loading,
-            )
 
-    // Posts that are selected by long press
-    private val _selectedPosts = MutableStateFlow(emptyList<Long>())
-    private val selectedPosts get() = _selectedPosts.asStateFlow()
+            repository.getPosts()
+                .catch { e ->
+                    Log.e("PostListViewModel", "Error in posts data flow from repository", e)
+                    _uiState.value = PostListUiState.Failed(e as Exception)
+                }
+                .collect { posts ->
+                    val currentlyEmpty = posts.isEmpty()
 
-    // Add or remove a post in the selection tracker
-    fun toggleSelected(id: Long) {
-        _selectedPosts.value = selectedPosts.value.toggle(id)
+                    if ((isInitialLoad && !initialFetchAttemptedOrSucceeded && currentlyEmpty) || (forceServerRefresh && currentlyEmpty)) {
+                        Log.d(
+                            "PostListViewModel",
+                            "Local database is empty or refresh forced. Fetching from server..."
+                        )
+                        _uiState.value = PostListUiState.Loading
 
-        if (selectedPosts.value.isEmpty()) {
-            endSelection()
+                        when (val fetchResult =
+                            repository.getServerPosts()) { // Assumes PostRepository is updated
+                            is Result.Success -> {
+                                Log.d(
+                                    "PostListViewModel",
+                                    "Server fetch successful. Waiting for DB update."
+                                )
+                                initialFetchAttemptedOrSucceeded = true
+                                if (currentlyEmpty && _uiState.value !is PostListUiState.Failed) {
+                                    _uiState.value = PostListUiState.Success(posts)
+                                }
+                            }
+
+                            is Result.Error -> {
+                                Log.e(
+                                    "PostListViewModel",
+                                    "Failed to fetch posts from server",
+                                    fetchResult.exception
+                                )
+                                initialFetchAttemptedOrSucceeded = true
+                                if (currentlyEmpty || forceServerRefresh) {
+                                    _uiState.value = PostListUiState.Failed(fetchResult.exception)
+                                } else {
+                                    _uiState.value = PostListUiState.Success(posts)
+                                }
+                            }
+                        }
+                    } else if (forceServerRefresh && !currentlyEmpty) {
+                        Log.d("PostListViewModel", "DB not empty, but forcing server refresh...")
+                        _uiState.value = PostListUiState.Loading
+                        when (val fetchResult = repository.getServerPosts()) {
+                            is Result.Success -> {
+                                Log.d(
+                                    "PostListViewModel",
+                                    "Server refresh successful. Waiting for DB update."
+                                )
+                                initialFetchAttemptedOrSucceeded = true
+                            }
+
+                            is Result.Error -> {
+                                Log.e(
+                                    "PostListViewModel",
+                                    "Failed to refresh posts from server",
+                                    fetchResult.exception
+                                )
+                                initialFetchAttemptedOrSucceeded = true
+                                _uiState.value = PostListUiState.Success(posts)
+                                // TODO: Consider a way to show a non-critical error message to the user (e.g., Snackbar)
+                            }
+                        }
+                    } else {
+                        _uiState.value = PostListUiState.Success(posts)
+                        if (posts.isNotEmpty()) {
+                            initialFetchAttemptedOrSucceeded = true
+                        }
+                    }
+                }
         }
-//        postListUiState.update {
-//            it.copy(selectedPosts = selectedPosts.value)
-//        }
-    }
-
-    private fun <T> List<T>.toggle(item: T) =
-        if (item in this)
-            this - item
-        else this + item
-
-    // Start selection tracking
-    fun startSelection(id: Long) {
-        _selectedPosts.value = listOf(id)
-//        viewModelState.update {
-//            it.copy(selectionMode = true, selectedPosts = selectedPosts.value)
-//        }
-    }
-
-    // End selection tracking
-    fun endSelection() {
-//        viewModelState.update {
-//            it.copy(selectionMode = false, selectedPosts = emptyList())
-//        }
-//        refreshPosts()
     }
 
     // Mark posts as read via repository
     fun markRead() = viewModelScope.launch {
-        repository.markRead(selectedPosts.value)
-        endSelection()
+        //TODO
     }
 
     // Mark single post as read
@@ -76,7 +117,6 @@ class PostListViewModel @Inject constructor(private val repository: PostReposito
     }
 
     fun deletePosts() = viewModelScope.launch {
-        repository.deletePosts(selectedPosts.value)
-        endSelection()
+        //TODO
     }
 }
