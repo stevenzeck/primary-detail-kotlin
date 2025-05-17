@@ -3,8 +3,11 @@ package com.example.primarydetail.ui.postdetail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.sqlite.SQLiteException
+import com.example.primarydetail.R
 import com.example.primarydetail.model.Post
 import com.example.primarydetail.ui.PostRepository
+import com.example.primarydetail.util.AppError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -12,6 +15,8 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 
@@ -28,7 +33,7 @@ class PostDetailViewModel @Inject constructor(
         repository.postById(postId)
             .map<Post, PostDetailUiState>(PostDetailUiState::Success)
             .catch { exception ->
-                emit(PostDetailUiState.Failed(exception))
+                emit(PostDetailUiState.Failed(mapExceptionToAppError(exception)))
             }
             .stateIn(
                 scope = viewModelScope,
@@ -41,15 +46,45 @@ class PostDetailViewModel @Inject constructor(
      * @param postId The ID of the post to mark as read
      */
     fun markRead(postId: Long) = viewModelScope.launch {
-        repository.markRead(postId)
+        try {
+            repository.markRead(postId)
+        } catch (e: Exception) {
+
+        }
     }
 
     /**
      * Delete a post via repository
      */
     fun deletePost() = viewModelScope.launch {
-        postId.let {
-            repository.deletePost(it)
+        try {
+            postId.let {
+                repository.deletePost(it)
+            }
+        } catch (e: Exception) {
+
+        }
+    }
+
+    private fun mapExceptionToAppError(e: Throwable): AppError {
+        return when (e) {
+            is IOException -> AppError.NetworkError(
+                R.string.error_network,
+                specificMessage = e.message
+            )
+
+            is HttpException -> AppError.NetworkError(
+                R.string.error_network_with_code,
+                statusCode = e.code(),
+                specificMessage = e.message()
+            )
+
+            is SQLiteException -> AppError.DatabaseError(
+                R.string.error_database,
+                specificMessage = e.message
+            )
+
+            else -> AppError.UnknownError(R.string.error_unknown, specificMessage = e.message)
         }
     }
 }

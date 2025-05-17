@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.example.primarydetail.model.Post
 
 
-@Database(entities = [Post::class], version = 1, exportSchema = false)
+@Database(entities = [Post::class], version = 1, exportSchema = true)
 abstract class PostsDatabase : RoomDatabase() {
 
     abstract fun postsDao(): PostsDao

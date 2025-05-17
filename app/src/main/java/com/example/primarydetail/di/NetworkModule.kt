@@ -1,5 +1,6 @@
 package com.example.primarydetail.di
 
+import com.example.primarydetail.BuildConfig
 import com.example.primarydetail.services.ApiService
 import com.example.primarydetail.util.BASE_URL
 import dagger.Module
@@ -22,7 +23,11 @@ object NetworkModule {
     @Provides
     fun provideOkHttpClient(): OkHttpClient {
         val logging = HttpLoggingInterceptor()
-        logging.level = HttpLoggingInterceptor.Level.BODY
+        if (BuildConfig.DEBUG) {
+            logging.level = HttpLoggingInterceptor.Level.BODY
+        } else {
+            logging.level = HttpLoggingInterceptor.Level.NONE
+        }
         return OkHttpClient().newBuilder()
             .addInterceptor(logging)
             .build()

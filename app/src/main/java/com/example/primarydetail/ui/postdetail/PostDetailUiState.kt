@@ -1,6 +1,7 @@
 package com.example.primarydetail.ui.postdetail
 
 import com.example.primarydetail.model.Post
+import com.example.primarydetail.util.AppError
 
 sealed interface PostDetailUiState {
 
@@ -11,6 +12,6 @@ sealed interface PostDetailUiState {
     ) : PostDetailUiState
 
     data class Failed(
-        val error: Throwable,
+        val error: AppError,
     ) : PostDetailUiState
 }
