@@ -20,11 +20,8 @@ class PostListViewModel @Inject constructor(private val repository: PostReposito
         viewModelScope.launch {
             try {
                 repository.getPosts().collect { posts ->
-                    val currentUiState = _uiState.value as? PostListUiState.Success
                     _uiState.value = PostListUiState.Success(
                         posts,
-                        currentUiState?.selectionMode ?: false,
-                        currentUiState?.selectedPosts ?: emptyList()
                     )
                 }
             } catch (e: Exception) {
@@ -33,38 +30,8 @@ class PostListViewModel @Inject constructor(private val repository: PostReposito
         }
     }
 
-    private fun <T> List<T>.toggle(item: T) =
-        if (item in this) this - item else this + item
-
-    fun toggleSelected(id: Long) {
-        val currentUiState = _uiState.value as? PostListUiState.Success ?: return
-        val updatedSelectedPosts = currentUiState.selectedPosts.toggle(id)
-        _uiState.value = currentUiState.copy(
-            selectedPosts = updatedSelectedPosts,
-            selectionMode = updatedSelectedPosts.isNotEmpty()
-        )
-    }
-
-    fun startSelection(id: Long) {
-        val currentUiState = _uiState.value as? PostListUiState.Success ?: return
-        _uiState.value = currentUiState.copy(
-            selectedPosts = listOf(id),
-            selectionMode = true
-        )
-    }
-
-    fun endSelection() {
-        val currentUiState = _uiState.value as? PostListUiState.Success ?: return
-        _uiState.value = currentUiState.copy(
-            selectedPosts = emptyList(),
-            selectionMode = false
-        )
-    }
-
     fun markRead() = viewModelScope.launch {
-        val currentUiState = _uiState.value as? PostListUiState.Success ?: return@launch
-        repository.markRead(currentUiState.selectedPosts)
-        endSelection()
+        //TODO: Implement
     }
 
     fun markRead(postId: Long) = viewModelScope.launch {
@@ -72,8 +39,6 @@ class PostListViewModel @Inject constructor(private val repository: PostReposito
     }
 
     fun deletePosts() = viewModelScope.launch {
-        val currentUiState = _uiState.value as? PostListUiState.Success ?: return@launch
-        repository.deletePosts(currentUiState.selectedPosts)
-        endSelection()
+        //TODO: Implement
     }
 }

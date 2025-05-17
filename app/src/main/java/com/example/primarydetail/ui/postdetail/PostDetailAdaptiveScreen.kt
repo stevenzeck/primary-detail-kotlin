@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,7 +13,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.primarydetail.model.Post
-import com.example.primarydetail.ui.postlist.Loading
 
 @Composable
 fun PostDetailScreen(post: Post, viewModel: PostDetailViewModel = hiltViewModel()) {
@@ -40,7 +40,7 @@ fun PostDetailScreen(post: Post, viewModel: PostDetailViewModel = hiltViewModel(
         }
 
         is PostDetailUiState.Loading -> {
-            Loading()
+            CircularProgressIndicator()
         }
     }
 }

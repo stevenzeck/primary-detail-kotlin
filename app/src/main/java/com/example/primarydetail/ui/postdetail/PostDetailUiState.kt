@@ -7,7 +7,7 @@ sealed interface PostDetailUiState {
     data object Loading : PostDetailUiState
 
     data class Success(
-        val post: Post
+        val post: Post,
     ) : PostDetailUiState
 
     data class Failed(

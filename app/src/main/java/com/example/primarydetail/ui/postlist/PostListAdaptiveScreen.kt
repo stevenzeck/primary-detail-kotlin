@@ -33,7 +33,8 @@ fun PostListAdaptiveScreen(
 
     when (val currentState = uiState) {
         is PostListUiState.Success -> {
-            PostListAdaptive(listState = listState,
+            PostListAdaptive(
+                listState = listState,
                 posts = currentState.posts,
                 onPostSelected = { post ->
                     viewModel.markRead(post.id)
@@ -44,6 +45,7 @@ fun PostListAdaptiveScreen(
         is PostListUiState.Failed -> {
             Text(text = "Error: ${currentState.error.message}")
         }
+
         is PostListUiState.Loading -> Loading()
     }
 }
@@ -74,10 +76,11 @@ fun PostListAdaptiveItem(
     onPostSelected: (Post) -> Unit,
     modifier: Modifier,
 ) {
-    Row(modifier = modifier
-        .fillMaxWidth()
-        .clickable { onPostSelected(post) }
-        .padding(16.dp)) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { onPostSelected(post) }
+            .padding(16.dp)) {
         Text(
             text = post.title,
             fontWeight = if (post.read) FontWeight.Normal else FontWeight.Bold,
