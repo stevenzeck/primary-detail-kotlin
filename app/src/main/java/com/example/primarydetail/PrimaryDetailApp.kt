@@ -22,8 +22,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.example.primarydetail.model.Post
 import com.example.primarydetail.ui.postdetail.PostDetailScreen
+import com.example.primarydetail.ui.postdetail.PostDetailViewModel
 import com.example.primarydetail.ui.postlist.PostListAdaptiveScreen
 import kotlinx.coroutines.launch
 
@@ -32,9 +32,10 @@ import kotlinx.coroutines.launch
 @ExperimentalMaterial3Api
 @ExperimentalFoundationApi
 @Composable
-fun PrimaryDetailApp() {
-
-    val navigator = rememberListDetailPaneScaffoldNavigator<Post>()
+fun PrimaryDetailApp(
+    postDetailViewModelFactory: PostDetailViewModel.Factory
+) {
+    val navigator = rememberListDetailPaneScaffoldNavigator<Long>()
     val coroutineScope = rememberCoroutineScope()
 
     BackHandler(navigator.canNavigateBack()) {
@@ -64,11 +65,11 @@ fun PrimaryDetailApp() {
             value = navigator.scaffoldValue,
             listPane = {
                 AnimatedPane {
-                    PostListAdaptiveScreen(onPostSelected = { post ->
+                    PostListAdaptiveScreen(onPostSelected = { postId ->
                         coroutineScope.launch {
                             navigator.navigateTo(
                                 ListDetailPaneScaffoldRole.Detail,
-                                post
+                                postId
                             )
                         }
                     })
@@ -76,8 +77,11 @@ fun PrimaryDetailApp() {
             },
             detailPane = {
                 AnimatedPane {
-                    navigator.currentDestination?.contentKey?.let {
-                        PostDetailScreen(post = it)
+                    navigator.currentDestination?.contentKey?.let { postId ->
+                        PostDetailScreen(
+                            postId = postId,
+                            viewModelFactory = postDetailViewModelFactory
+                        )
                     }
                 }
             },

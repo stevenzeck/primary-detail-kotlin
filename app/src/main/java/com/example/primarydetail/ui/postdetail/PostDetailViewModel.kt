@@ -1,6 +1,5 @@
 package com.example.primarydetail.ui.postdetail
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.sqlite.SQLiteException
@@ -8,7 +7,9 @@ import com.example.primarydetail.R
 import com.example.primarydetail.model.Post
 import com.example.primarydetail.ui.PostRepository
 import com.example.primarydetail.util.AppError
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -17,17 +18,11 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
-import javax.inject.Inject
 
-
-@HiltViewModel
-class PostDetailViewModel @Inject constructor(
+class PostDetailViewModel @AssistedInject constructor(
     private val repository: PostRepository,
-    savedStateHandle: SavedStateHandle
-) :
-    ViewModel() {
-
-    private val postId: Long = savedStateHandle["postId"] ?: 0L
+    @Assisted private val postId: Long
+) : ViewModel() {
 
     val postDetailUiState: StateFlow<PostDetailUiState> =
         repository.postById(postId)
@@ -41,11 +36,7 @@ class PostDetailViewModel @Inject constructor(
                 initialValue = PostDetailUiState.Loading,
             )
 
-    /**
-     * Mark a post as read via repository
-     * @param postId The ID of the post to mark as read
-     */
-    fun markRead(postId: Long) = viewModelScope.launch {
+    fun markRead() = viewModelScope.launch {
         try {
             repository.markRead(postId)
         } catch (e: Exception) {
@@ -53,14 +44,9 @@ class PostDetailViewModel @Inject constructor(
         }
     }
 
-    /**
-     * Delete a post via repository
-     */
     fun deletePost() = viewModelScope.launch {
         try {
-            postId.let {
-                repository.deletePost(it)
-            }
+            repository.deletePost(postId)
         } catch (e: Exception) {
 
         }
@@ -86,5 +72,10 @@ class PostDetailViewModel @Inject constructor(
 
             else -> AppError.UnknownError(R.string.error_unknown, specificMessage = e.message)
         }
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(postId: Long): PostDetailViewModel
     }
 }

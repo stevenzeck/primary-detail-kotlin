@@ -6,17 +6,17 @@ import com.example.primarydetail.ui.PostRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
-import dagger.hilt.android.scopes.ViewModelScoped
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 object AppModule {
 
     @Provides
-    @ViewModelScoped
+    @Singleton
     fun provideRepository(
         client: ApiService,
         postsDao: PostsDao,
@@ -24,5 +24,6 @@ object AppModule {
     ) = PostRepository(client, postsDao, ioDispatcher)
 
     @Provides
+    @Singleton
     fun provideIoDispatcher(): CoroutineDispatcher = Dispatchers.IO
 }

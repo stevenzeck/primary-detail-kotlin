@@ -33,7 +33,7 @@ import com.example.primarydetail.util.AppError
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PostListAdaptiveScreen(
-    onPostSelected: (Post) -> Unit,
+    onPostSelected: (Long) -> Unit,
     viewModel: PostListViewModel = hiltViewModel(),
 ) {
     val listState = rememberLazyListState()
@@ -46,14 +46,11 @@ fun PostListAdaptiveScreen(
                 posts = currentState.posts,
                 onPostSelected = { post ->
                     viewModel.markRead(post.id)
-                    onPostSelected(post)
+                    onPostSelected(post.id)
                 })
         }
 
-        is PostListUiState.Failed -> {
-            ErrorDisplay(error = currentState.error)
-        }
-
+        is PostListUiState.Failed -> ErrorDisplay(error = currentState.error)
         is PostListUiState.Loading -> Loading()
     }
 }
@@ -61,18 +58,18 @@ fun PostListAdaptiveScreen(
 @ExperimentalFoundationApi
 @Composable
 fun PostListAdaptive(
-    listState: LazyListState, posts: List<Post>, onPostSelected: (Post) -> Unit
+    listState: LazyListState,
+    posts: List<Post>,
+    onPostSelected: (Post) -> Unit
 ) {
     LazyColumn(state = listState) {
-        items(items = posts, key = { post ->
-            post.id
-        }) { post ->
+        items(items = posts, key = { post -> post.id }) { post ->
             PostListAdaptiveItem(
-                post = post, onPostSelected = onPostSelected, modifier = Modifier.animateItem()
+                post = post,
+                onPostSelected = onPostSelected,
+                modifier = Modifier.animateItem()
             )
-            HorizontalDivider(
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)
-            )
+            HorizontalDivider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
         }
     }
 }
@@ -88,7 +85,8 @@ fun PostListAdaptiveItem(
         modifier = modifier
             .fillMaxWidth()
             .clickable { onPostSelected(post) }
-            .padding(16.dp)) {
+            .padding(16.dp)
+    ) {
         Text(
             text = post.title,
             fontWeight = if (post.read) FontWeight.Normal else FontWeight.Bold,
@@ -103,9 +101,7 @@ fun Loading() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CircularProgressIndicator(
-            modifier = Modifier.size(32.dp)
-        )
+        CircularProgressIndicator(modifier = Modifier.size(32.dp))
     }
 }
 

@@ -17,14 +17,30 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.primarydetail.model.Post
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.primarydetail.util.AppError
 
+@Suppress("UNCHECKED_CAST")
+class LambdaViewModelFactory<T : ViewModel>(
+    private val create: () -> T
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return create() as T
+    }
+}
 
 @Composable
-fun PostDetailScreen(post: Post, viewModel: PostDetailViewModel = hiltViewModel()) {
+fun PostDetailScreen(
+    postId: Long,
+    viewModelFactory: PostDetailViewModel.Factory
+) {
+    val viewModel: PostDetailViewModel = viewModel(
+        key = "post_detail_$postId",
+        factory = LambdaViewModelFactory { viewModelFactory.create(postId) }
+    )
 
     val uiState = viewModel.postDetailUiState.collectAsStateWithLifecycle()
     val currentUiState = uiState.value
@@ -45,13 +61,8 @@ fun PostDetailScreen(post: Post, viewModel: PostDetailViewModel = hiltViewModel(
             }
         }
 
-        is PostDetailUiState.Failed -> {
-            ErrorDisplayDetail(error = currentUiState.error)
-        }
-
-        is PostDetailUiState.Loading -> {
-            LoadingDetail()
-        }
+        is PostDetailUiState.Failed -> ErrorDisplayDetail(error = currentUiState.error)
+        is PostDetailUiState.Loading -> LoadingDetail()
     }
 }
 
@@ -62,9 +73,7 @@ fun LoadingDetail() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CircularProgressIndicator(
-            modifier = Modifier.size(32.dp)
-        )
+        CircularProgressIndicator(modifier = Modifier.size(32.dp))
     }
 }
 
@@ -78,7 +87,6 @@ fun ErrorDisplayDetail(error: AppError, modifier: Modifier = Modifier) {
         is AppError.DatabaseError -> stringResource(id = error.messageResource)
         is AppError.UnknownError -> stringResource(id = error.messageResource)
     }
-
     Column(
         modifier = modifier
             .fillMaxSize()
