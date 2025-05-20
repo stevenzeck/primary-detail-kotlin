@@ -31,7 +31,7 @@ data class Post(
     @SerialName("body")
     val body: String,
     @ColumnInfo(name = COLUMN_READ)
-    var read: Boolean = false
+    val read: Boolean = false
 ) : Parcelable {
     companion object {
 
