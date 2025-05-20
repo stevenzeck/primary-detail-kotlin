@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.primarydetail.model.Post
-import com.example.primarydetail.ui.postlist.Loading
+import com.example.primarydetail.ui.postlist.LoadingView
 
 @Composable
 fun PostDetailScreen(
@@ -26,8 +26,8 @@ fun PostDetailScreen(
             post = currentState.post,
         )
 
-        is PostDetailUiState.Failed -> Loading()
-        is PostDetailUiState.Loading -> Loading()
+        is PostDetailUiState.Failed -> LoadingView()
+        is PostDetailUiState.Loading -> LoadingView()
     }
 }
 

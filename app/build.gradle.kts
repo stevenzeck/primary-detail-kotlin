@@ -9,12 +9,12 @@ plugins {
 }
 
 android {
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.primarydetail"
         minSdk = 21
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -90,9 +90,6 @@ dependencies {
 
     // Compose
     implementation(libs.bundles.compose)
-
-    // Compose M3 Adaptive
-    implementation(libs.bundles.compose.material3.adaptive)
 
     // Accompanist
     implementation(libs.bundles.accompanist)

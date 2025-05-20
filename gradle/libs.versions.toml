@@ -3,14 +3,13 @@ accompanist = "0.36.0"
 agp = "8.10.0"
 appcompat = "1.7.0"
 activity = "1.10.1"
-compose-foundation = "1.9.0-alpha02"
-compose-material = "1.9.0-alpha02"
+compose-foundation = "1.9.0-alpha03"
+compose-material = "1.9.0-alpha03"
 compose-material-icons = "1.7.8"
-compose-material3 = "1.4.0-alpha14"
-compose-material3-adaptive = "1.2.0-alpha05"
+compose-material3 = "1.4.0-alpha15"
 compose-navigation = "2.9.0"
-compose-runtime = "1.9.0-alpha02"
-compose-ui = "1.9.0-alpha02"
+compose-runtime = "1.9.0-alpha03"
+compose-ui = "1.9.0-alpha03"
 coroutines = "1.10.2"
 expresso-core = "3.6.1"
 ext-junit = "1.2.1"
@@ -23,6 +22,7 @@ ksp = "2.1.21-2.0.1"
 lifecycle-viewmodel = "2.9.0"
 logging-interceptor = "5.0.0-alpha.14"
 material = "1.12.0"
+navigation3 = "1.0.0-alpha01"
 preference = "1.2.1"
 retrofit = "3.0.0"
 room = "2.7.1"
@@ -35,9 +35,6 @@ compose-activity = { group = "androidx.activity", name = "activity-compose", ver
 compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "compose-foundation" }
 compose-material = { group = "androidx.compose.material", name = "material", version.ref = "compose-material" }
 compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "compose-material3" }
-compose-material3-adaptive = { group = "androidx.compose.material3.adaptive", name = "adaptive", version.ref = "compose-material3-adaptive" }
-compose-material3-adaptive-layout = { group = "androidx.compose.material3.adaptive", name = "adaptive-layout", version.ref = "compose-material3-adaptive" }
-compose-material3-adaptive-navigation = { group = "androidx.compose.material3.adaptive", name = "adaptive-navigation", version.ref = "compose-material3-adaptive" }
 compose-material-icons-core = { group = "androidx.compose.material", name = "material-icons-core-android", version.ref = "compose-material-icons" }
 compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended-android", version.ref = "compose-material-icons" }
 compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "compose-navigation" }
@@ -58,6 +55,8 @@ lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmode
 logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "logging-interceptor" }
 preference = { group = "androidx.preference", name = "preference-ktx", version.ref = "preference" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+navigation3-runtime = { group = "androidx.navigation3", name = "navigation3-runtime", version.ref = "navigation3" }
+navigation3-ui = { group = "androidx.navigation3", name = "navigation3-ui", version.ref = "navigation3" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
@@ -66,8 +65,8 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 [bundles]
 accompanist = ["accompanist-swiperefresh", "accompanist-uicontroller"]
 compose = ["compose-activity", "compose-foundation", "compose-material", "compose-material-icons-core", "compose-material-icons-extended", "compose-material3", "compose-navigation", "compose-runtime", "compose-ui", "compose-ui-tooling"]
-compose-material3-adaptive = ["compose-material3-adaptive", "compose-material3-adaptive-layout", "compose-material3-adaptive-navigation"]
 hilt = ["hilt-android", "hilt-compose"]
+navigation3 = ["navigation3-runtime", "navigation3-ui"]
 retrofit = ["logging-interceptor", "kotlin-serialization-converter", "retrofit"]
 room = ["room-runtime", "room-ktx"]
 
