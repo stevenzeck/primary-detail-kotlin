@@ -26,6 +26,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.primarydetail.MainActivity
 import com.example.primarydetail.R
 import com.example.primarydetail.databinding.PostListFragmentBinding
+import com.example.primarydetail.util.Resource
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -125,13 +127,45 @@ class PostListFragment : Fragment() {
                 }
             })
 
-        viewModel.serverPosts()
-        lifecycleScope.launch {
+        // Initial fetch of posts
+        viewModel.fetchPostsFromServer()
+
+        viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.posts.collectLatest {
-                    mAdapter.submitList(it)
+                launch {
+                    viewModel.posts.collectLatest {
+                        mAdapter.submitList(it)
+                        if (binding.swipeContainer.isRefreshing && it.isNotEmpty()) {
+                            binding.swipeContainer.isRefreshing = false
+                        }
+                    }
+                }
+                launch {
+                    viewModel.serverPostStatus.collectLatest { resource ->
+                        when (resource) {
+                            is Resource.Loading -> {
+                                binding.swipeContainer.isRefreshing = true
+                            }
+
+                            is Resource.Success -> {
+                                binding.swipeContainer.isRefreshing = false
+                            }
+
+                            is Resource.Error -> {
+                                binding.swipeContainer.isRefreshing = false
+                                resource.message?.let {
+                                    Snackbar.make(binding.root, it, Snackbar.LENGTH_LONG)
+                                        .show()
+                                }
+                            }
+                        }
+                    }
                 }
             }
+        }
+
+        binding.swipeContainer.setOnRefreshListener {
+            viewModel.fetchPostsFromServer()
         }
     }
 
