@@ -1,14 +1,17 @@
 package com.example.primarydetail.ui
 
+import android.util.Log
 import com.example.primarydetail.model.Post
 import com.example.primarydetail.services.ApiService
 import com.example.primarydetail.services.PostsDao
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -20,15 +23,15 @@ class PostRepository @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun getPosts(): Flow<List<Post>> {
-        return postsDao.getAllPosts().flatMapLatest { posts ->
-            if (posts.isEmpty()) {
-                flow {
-                    emit(getServerPosts())
-                }.flatMapLatest {
-                    postsDao.getAllPosts()
+        return postsDao.getAllPosts().onStart {
+            val currentPosts = postsDao.getAllPosts().first()
+            if (currentPosts.isEmpty()) {
+                try {
+                    val serverPosts = client.getAllPosts()
+                    postsDao.insertPosts(serverPosts)
+                } catch (e: Exception) {
+                    Log.e("PostRepository", "Failed to fetch initial posts", e)
                 }
-            } else {
-                flowOf(posts)
             }
         }
     }

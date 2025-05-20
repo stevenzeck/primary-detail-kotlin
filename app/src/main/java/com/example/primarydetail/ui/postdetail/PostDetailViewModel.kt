@@ -1,5 +1,6 @@
 package com.example.primarydetail.ui.postdetail
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.sqlite.SQLiteException
@@ -40,7 +41,7 @@ class PostDetailViewModel @AssistedInject constructor(
         try {
             repository.markRead(postId)
         } catch (e: Exception) {
-
+            Log.e("PostDetailViewModel", "Failed to mark post as read", e)
         }
     }
 
@@ -48,7 +49,7 @@ class PostDetailViewModel @AssistedInject constructor(
         try {
             repository.deletePost(postId)
         } catch (e: Exception) {
-
+            Log.e("PostDetailViewModel", "Failed to delete post", e)
         }
     }
 
