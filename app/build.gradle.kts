@@ -67,15 +67,15 @@ dependencies {
     implementation(libs.kotlin.stdlib)
 
     // AndroidX Core
-    implementation(libs.preference)
-    implementation(libs.appcompat)
+    implementation(libs.androidx.preference)
+    implementation(libs.androidx.appcompat)
 
     // ViewModel
-    implementation(libs.lifecycle.viewmodel)
+    implementation(libs.androidx.lifecycle.viewmodel)
 
     // Room Database
     implementation(libs.bundles.room)
-    ksp(libs.room.compiler)
+    ksp(libs.androidx.room.compiler)
 
     // Material
     implementation(libs.material)
@@ -101,6 +101,6 @@ dependencies {
 
     // Test
     testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.expresso.core)
+    androidTestImplementation(libs.androidx.ext.junit)
+    androidTestImplementation(libs.androidx.expresso.core)
 }
