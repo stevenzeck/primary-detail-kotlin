@@ -35,11 +35,7 @@ fun PrimaryDetailNavGraph(
 
         settingsScreen(
             fragmentManager = fragmentManager,
-            updateTopBarState = {
-                appState.topBarState = it
-            }
         )
-
     }
 }
 

@@ -20,7 +20,6 @@ class PrimaryDetailAppState(
     val navController: NavHostController,
     val resources: Resources,
 ) {
-    var topBarState: TopBarState by mutableStateOf(TopBarState())
 
     fun upPress() {
         navController.navigateUp()
