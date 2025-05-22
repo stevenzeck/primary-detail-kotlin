@@ -24,7 +24,7 @@ logging-interceptor = "5.0.0-alpha.14"
 material = "1.12.0"
 navigation3 = "1.0.0-alpha01"
 navigation3-material = "1.0.0-SNAPSHOT"
-navigation3-lifecycle = "1.0.0-alpha01"
+navigation3-lifecycle = "1.0.0-SNAPSHOT"
 preference = "1.2.1"
 retrofit = "3.0.0"
 room = "2.7.1"
@@ -51,7 +51,7 @@ androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecy
 androidx-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-material3-navigation3 = { group = "androidx.compose.material3.adaptive", name = "adaptive-navigation3", version.ref = "navigation3-material" }
 androidx-material3-windowsizeclass = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "compose-material3" }
-androidx-material3-adaptive-layout = { group = "androidx.compose.material3.adaptive", name = "adaptive-layout", version.ref = "compose-material3" }
+#androidx-material3-adaptive-layout = { group = "androidx.compose.material3.adaptive", name = "adaptive-layout", version.ref = "compose-material3" }
 androidx-navigation3-runtime = { group = "androidx.navigation3", name = "navigation3-runtime", version.ref = "navigation3" }
 androidx-navigation3-ui = { group = "androidx.navigation3", name = "navigation3-ui", version.ref = "navigation3" }
 androidx-preference = { group = "androidx.preference", name = "preference-ktx", version.ref = "preference" }
@@ -73,7 +73,7 @@ retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = 
 accompanist = ["accompanist-swiperefresh", "accompanist-uicontroller"]
 compose = ["androidx-compose-activity", "androidx-compose-foundation", "androidx-compose-material", "androidx-compose-material-icons-core", "androidx-compose-material-icons-extended", "androidx-compose-material3", "androidx-compose-navigation", "androidx-compose-runtime", "androidx-compose-ui", "androidx-compose-ui-tooling"]
 hilt = ["hilt-android", "hilt-compose"]
-navigation3 = ["androidx-adaptive-layout", "androidx-lifecycle-viewmodel-navigation3", "androidx-material3-navigation3", "androidx-material3-windowsizeclass", "androidx-material3-adaptive-layout", "androidx-navigation3-runtime", "androidx-navigation3-ui"]
+navigation3 = ["androidx-adaptive-layout", "androidx-lifecycle-viewmodel-navigation3", "androidx-material3-navigation3", "androidx-material3-windowsizeclass", "androidx-navigation3-runtime", "androidx-navigation3-ui"]
 retrofit = ["logging-interceptor", "kotlin-serialization-converter", "retrofit"]
 room = ["androidx-room-runtime", "androidx-room-ktx"]
 
