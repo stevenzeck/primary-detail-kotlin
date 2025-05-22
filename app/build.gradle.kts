@@ -91,6 +91,9 @@ dependencies {
     // Compose
     implementation(libs.bundles.compose)
 
+    // Compose Navigation3
+    implementation(libs.bundles.navigation3)
+
     // Accompanist
     implementation(libs.bundles.accompanist)
 

@@ -6,6 +6,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.ExperimentalMaterial3Api
 import dagger.hilt.android.AndroidEntryPoint
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.compose.material3.adaptive.navigation3.rememberListDetailSceneStrategy
+import kotlinx.serialization.Serializable
+
+@Serializable
+object PostList : NavKey
+
+@Serializable
+data class PostDetail(val postId: Long) : NavKey
 
 @AndroidEntryPoint
 @ExperimentalFoundationApi
@@ -16,7 +26,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            PrimaryDetailApp(fragmentManager = supportFragmentManager)
+            val backStack = rememberNavBackStack(PostList)
+            val listDetailStrategy = rememberListDetailSceneStrategy<NavKey>()
         }
     }
 }

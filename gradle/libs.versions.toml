@@ -32,7 +32,7 @@ room = "2.7.1"
 [libraries]
 accompanist-swiperefresh = { group = "com.google.accompanist", name = "accompanist-swiperefresh", version.ref = "accompanist" }
 accompanist-uicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
-androidx-material3-navigation3 = { group = "androidx.compose.material3.adaptive", name = "adaptive-navigation3", version.ref = "navigation3-material" }
+androidx-adaptive-layout = { group = "androidx.compose.material3.adaptive", name = "adaptive-layout" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "activity" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "compose-foundation" }
@@ -49,6 +49,9 @@ androidx-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref 
 androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle-viewmodel" }
 androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "navigation3-lifecycle" }
 androidx-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-material3-navigation3 = { group = "androidx.compose.material3.adaptive", name = "adaptive-navigation3", version.ref = "navigation3-material" }
+androidx-material3-windowsizeclass = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "compose-material3" }
+androidx-material3-adaptive-layout = { group = "androidx.compose.material3.adaptive", name = "adaptive-layout", version.ref = "compose-material3" }
 androidx-navigation3-runtime = { group = "androidx.navigation3", name = "navigation3-runtime", version.ref = "navigation3" }
 androidx-navigation3-ui = { group = "androidx.navigation3", name = "navigation3-ui", version.ref = "navigation3" }
 androidx-preference = { group = "androidx.preference", name = "preference-ktx", version.ref = "preference" }
@@ -70,7 +73,7 @@ retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = 
 accompanist = ["accompanist-swiperefresh", "accompanist-uicontroller"]
 compose = ["androidx-compose-activity", "androidx-compose-foundation", "androidx-compose-material", "androidx-compose-material-icons-core", "androidx-compose-material-icons-extended", "androidx-compose-material3", "androidx-compose-navigation", "androidx-compose-runtime", "androidx-compose-ui", "androidx-compose-ui-tooling"]
 hilt = ["hilt-android", "hilt-compose"]
-navigation3 = ["androidx-material3-navigation3", "androidx-lifecycle-viewmodel-navigation3", "androidx-navigation3-runtime", "androidx-navigation3-ui"]
+navigation3 = ["androidx-adaptive-layout", "androidx-lifecycle-viewmodel-navigation3", "androidx-material3-navigation3", "androidx-material3-windowsizeclass", "androidx-material3-adaptive-layout", "androidx-navigation3-runtime", "androidx-navigation3-ui"]
 retrofit = ["logging-interceptor", "kotlin-serialization-converter", "retrofit"]
 room = ["androidx-room-runtime", "androidx-room-ktx"]
 
