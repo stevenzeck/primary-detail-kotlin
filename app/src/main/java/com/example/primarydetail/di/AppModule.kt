@@ -6,15 +6,15 @@ import com.example.primarydetail.ui.PostRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
-import dagger.hilt.android.scopes.ViewModelScoped
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 object AppModule {
 
     @Provides
-    @ViewModelScoped
+    @Singleton
     fun provideRepository(
         client: ApiService,
         postsDao: PostsDao

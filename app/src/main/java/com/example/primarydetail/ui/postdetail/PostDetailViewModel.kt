@@ -1,11 +1,13 @@
 package com.example.primarydetail.ui.postdetail
 
 import android.util.Log
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.primarydetail.model.Post
 import com.example.primarydetail.ui.PostRepository
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -13,17 +15,12 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-
-@HiltViewModel
-class PostDetailViewModel @Inject constructor(
+class PostDetailViewModel @AssistedInject constructor(
     private val repository: PostRepository,
-    savedStateHandle: SavedStateHandle
+    @Assisted private val postId: Long
 ) :
     ViewModel() {
-
-    private val postId: Long = savedStateHandle["postId"] ?: -1L
 
     val postDetailUiState: StateFlow<PostDetailUiState> =
         repository.postById(postId)
@@ -55,5 +52,10 @@ class PostDetailViewModel @Inject constructor(
         postId.let {
             repository.deletePost(it)
         }
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(postId: Long): PostDetailViewModel
     }
 }

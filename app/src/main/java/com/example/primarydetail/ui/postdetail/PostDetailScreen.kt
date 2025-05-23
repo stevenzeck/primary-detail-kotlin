@@ -10,15 +10,31 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.primarydetail.model.Post
 import com.example.primarydetail.ui.postlist.LoadingView
 
+@Suppress("UNCHECKED_CAST")
+class LambdaViewModelFactory<T : ViewModel>(
+    private val create: () -> T
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return create() as T
+    }
+}
+
 @Composable
 fun PostDetailScreen(
-    viewModel: PostDetailViewModel = hiltViewModel()
+    postId: Long,
+    viewModelFactory: PostDetailViewModel.Factory,
 ) {
+    val viewModel: PostDetailViewModel = viewModel(
+        key = "post_detail_$postId",
+        factory = LambdaViewModelFactory { viewModelFactory.create(postId) }
+    )
     val uiState by viewModel.postDetailUiState.collectAsStateWithLifecycle()
 
     when (val currentState = uiState) {
