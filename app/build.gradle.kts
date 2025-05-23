@@ -61,10 +61,6 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(libs.kotlin.stdlib)
 
-    // AndroidX Core
-    implementation(libs.androidx.preference)
-    implementation(libs.androidx.appcompat)
-
     // ViewModel
     implementation(libs.androidx.lifecycle.viewmodel)
 
@@ -93,9 +89,6 @@ dependencies {
 
     // Compose Navigation3
     implementation(libs.bundles.navigation3)
-
-    // Accompanist
-    implementation(libs.bundles.accompanist)
 
     // Test
     testImplementation(libs.junit)
