@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.agp)
     alias(libs.plugins.kotlin)
@@ -50,16 +52,18 @@ android {
         buildConfig = true
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-        allWarningsAsErrors = true
-    }
-
     composeCompiler {
 
     }
 
     namespace = "com.example.primarydetail"
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_17
+        allWarningsAsErrors = true
+    }
 }
 
 dependencies {
