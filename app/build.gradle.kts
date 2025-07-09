@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -49,12 +51,14 @@ android {
         compose = true
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+    namespace = "com.example.primarydetail"
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_17
         allWarningsAsErrors = true
     }
-
-    namespace = "com.example.primarydetail"
 }
 
 dependencies {
