@@ -15,7 +15,7 @@ import com.example.primarydetail.ui.theme.PrimaryDetailTheme
 @ExperimentalMaterial3Api
 @ExperimentalFoundationApi
 @Composable
-fun PrimaryDetailApp(fragmentManager: FragmentManager) {
+fun PrimaryDetailApp() {
 
     PrimaryDetailTheme {
 
@@ -32,7 +32,6 @@ fun PrimaryDetailApp(fragmentManager: FragmentManager) {
         ) { paddingValues ->
             Box(modifier = Modifier.padding(paddingValues)) {
                 PrimaryDetailNavGraph(
-                    fragmentManager = fragmentManager,
                     appState = appState,
                 )
             }
