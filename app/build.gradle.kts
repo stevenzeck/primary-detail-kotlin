@@ -72,9 +72,6 @@ dependencies {
     implementation(libs.bundles.room)
     ksp(libs.androidx.room.compiler)
 
-    // Material
-    implementation(libs.androidx.material)
-
     // Kotlin Coroutines
     runtimeOnly(libs.coroutines.android)
 
