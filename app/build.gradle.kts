@@ -70,19 +70,12 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(libs.kotlin.stdlib)
 
-    // AndroidX Core
-    implementation(libs.androidx.preference)
-    implementation(libs.androidx.appcompat)
-
     // ViewModel
     implementation(libs.androidx.lifecycle.viewmodel)
 
     // Room Database
     implementation(libs.bundles.room)
     ksp(libs.androidx.room.compiler)
-
-    // Material
-    implementation(libs.material)
 
     // Kotlin Coroutines
     runtimeOnly(libs.coroutines.android)
