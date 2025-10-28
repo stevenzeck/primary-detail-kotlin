@@ -1,39 +1,31 @@
 [versions]
 accompanist = "0.36.0"
 agp = "8.13.0"
-appcompat = "1.7.1"
 activity = "1.11.0"
-compose-foundation = "1.10.0-alpha03"
-compose-material = "1.10.0-alpha03"
+compose-foundation = "1.10.0-beta01"
+compose-material = "1.10.0-beta01"
 compose-material-icons = "1.7.8"
-compose-material3 = "1.5.0-alpha04"
-compose-navigation = "2.9.4"
-compose-runtime = "1.10.0-alpha03"
-compose-ui = "1.10.0-alpha03"
+compose-material3 = "1.5.0-alpha07"
+compose-navigation = "2.9.5"
+compose-runtime = "1.10.0-beta01"
+compose-ui = "1.10.0-beta01"
 coroutines = "1.10.2"
 expresso-core = "3.7.0"
 ext-junit = "1.3.0"
-hilt = "2.57.1"
+hilt = "2.57.2"
 hilt-compose = "1.3.0"
 junit = "4.13.2"
-kotlin = "2.2.20"
+kotlin = "2.2.21"
 kotlin-serialization = "1.9.0"
-ksp = "2.2.20-2.0.3"
-lifecycle-viewmodel = "2.9.3"
-logging-interceptor = "5.1.0"
-material = "1.13.0"
-navigation3 = "1.0.0-alpha09"
-navigation3-material = "1.0.0-SNAPSHOT"
-navigation3-lifecycle = "1.0.0-alpha04"
-preference = "1.2.1"
+ksp = "2.3.0"
+lifecycle-viewmodel = "2.9.4"
+logging-interceptor = "5.2.1"
 retrofit = "3.0.0"
-room = "2.8.0"
+room = "2.8.3"
 
 [libraries]
 accompanist-swiperefresh = { group = "com.google.accompanist", name = "accompanist-swiperefresh", version.ref = "accompanist" }
 accompanist-uicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
-androidx-material3-navigation3 = { group = "androidx.compose.material3.adaptive", name = "adaptive-navigation3", version.ref = "navigation3-material" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "activity" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "compose-foundation" }
 androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "compose-material" }
@@ -47,11 +39,6 @@ androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-expresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "expresso-core" }
 androidx-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "ext-junit" }
 androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle-viewmodel" }
-androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "navigation3-lifecycle" }
-androidx-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
-androidx-navigation3-runtime = { group = "androidx.navigation3", name = "navigation3-runtime", version.ref = "navigation3" }
-androidx-navigation3-ui = { group = "androidx.navigation3", name = "navigation3-ui", version.ref = "navigation3" }
-androidx-preference = { group = "androidx.preference", name = "preference-ktx", version.ref = "preference" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
@@ -70,7 +57,6 @@ retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = 
 accompanist = ["accompanist-swiperefresh", "accompanist-uicontroller"]
 compose = ["androidx-compose-activity", "androidx-compose-foundation", "androidx-compose-material", "androidx-compose-material-icons-core", "androidx-compose-material-icons-extended", "androidx-compose-material3", "androidx-compose-navigation", "androidx-compose-runtime", "androidx-compose-ui", "androidx-compose-ui-tooling"]
 hilt = ["hilt-android", "hilt-compose"]
-navigation3 = ["androidx-material3-navigation3", "androidx-lifecycle-viewmodel-navigation3", "androidx-navigation3-runtime", "androidx-navigation3-ui"]
 retrofit = ["logging-interceptor", "kotlin-serialization-converter", "retrofit"]
 room = ["androidx-room-runtime", "androidx-room-ktx"]
 
