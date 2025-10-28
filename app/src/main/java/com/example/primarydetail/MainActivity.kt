@@ -19,7 +19,6 @@ import androidx.compose.material3.adaptive.navigation3.rememberListDetailSceneSt
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation3.runtime.NavKey
-import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
@@ -87,7 +86,7 @@ class MainActivity : ComponentActivity() {
                 NavDisplay(
                     modifier = Modifier.padding(padding),
                     backStack = backStack,
-                    onBack = { keysToRemove -> repeat(keysToRemove) { backStack.removeLastOrNull() } },
+                    onBack = { backStack.removeLastOrNull() },
                     sceneStrategy = listDetailStrategy,
                     entryProvider = entryProvider {
                         entry<PostList>(
